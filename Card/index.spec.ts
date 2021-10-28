@@ -1,6 +1,15 @@
 import * as model from "../index"
 
 describe("@pax2pay/model.Card", () => {
+	it("is", () => {
+		expect(
+			model.Card.is({
+				pan: "4111111111111111",
+				csc: "987",
+				expires: [2, 22],
+			})
+		).toEqual(true)
+	})
 	it("Token.is", () => {
 		const token = "4567897890/0221/1336/abcdefgh/ABCDEFGH"
 		expect(model.Card.Token.is(token)).toEqual(true)
