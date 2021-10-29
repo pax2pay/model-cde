@@ -59,13 +59,22 @@ export namespace Card {
 			expires: string,
 			key: string,
 			value: string,
+			salt: string
+		): Unpacked
+		export function unpack(
+			masked: string,
+			length: string,
+			expires: string,
+			key: string,
+			value: string,
 			salt: string,
-			part?: string
+			part: string
 		): Unpacked
 		export function unpack(token: string[]): Unpacked
-		export function unpack(...argument: [Token | string | string[], ...string[]]): Unpacked {
-			const splitted = argument.length == 1
-				? (typeof argument[0] == "string") ? argument[0].split("/") : argument[0]
+		export function unpack(...argument: [Token] | string[] | [string[]]): Unpacked
+		export function unpack(...argument: [Token] | string[] | [string[]]): Unpacked {
+			const splitted: string[] = argument.length == 1
+				? (Array.isArray(argument[0])) ? argument[0] : argument[0].split("/")
 				: argument as string[]
 			const length = splitted[0].length
 			return {
