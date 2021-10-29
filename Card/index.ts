@@ -1,5 +1,6 @@
 import { Expires as CardExpires } from "./Expires"
 import { Masked as CardMasked } from "./Masked"
+import { Part as CardPart } from "./Part"
 
 export interface Card {
 	pan: string
@@ -36,35 +37,50 @@ export namespace Card {
 		export function is(value: any | Token): value is Token {
 			return (
 				typeof value == "string" &&
-				/[0-9]{10}\/[0-2][0-9]{3}\/[0-2][0-9][0-6][0,2,4,6,8]\/[a-z,A-Z,0-9\-_]+\/[a-z,A-Z,0-9\-_]+(\/(pan|csc|expires|masked))?/.test(
+				/[0-9]{10,12}\/[0-9]{2}\/[0-1][0-9]{3}\/[0-2][0-9][0-6][0,2,4,6,8]\/[a-z,A-Z,0-9\-_]+\/[a-z,A-Z,0-9\-_]+(\/(pan|csc|expires|month|year|masked))?/.test(
 					value
 				)
-				// masked/expires/key/encrypted/salt
-				// masked/expires/key/encrypted/salt/part
-				// 4111111111/0222/1336/abcde01234-_ABCDE/abcde01234-_ABCDE
-				// 4111111111/0222/1336/abcde01234-_ABCDE/abcde01234-_ABCDE/csc
+				// masked/length/expires/key/encrypted/salt
+				// masked/length/expires/key/encrypted/salt/part
+				// 4111111111/16/0222/1336/abcde01234-_ABCDE/abcde01234-_ABCDE
+				// 4111111111/16/0222/1336/abcde01234-_ABCDE/abcde01234-_ABCDE/csc
 			)
 		}
-		export function unpack(token: Token): CardMasked {
-			const splitted = token.split("/", 3)
+		export function unpack(
+			token: Token
+		): CardMasked & { key: string; encrypted: string; salt: string; part?: CardPart } {
+			const splitted = token.split("/")
 			const length = splitted[0].length
 			return {
-				masked: splitted[0].slice(0, 6) + "*".repeat(6) + splitted[0].slice(length - 4, length),
+				masked:
+					splitted[0].slice(0, length - 4) +
+					"*".repeat(Number.parseInt(splitted[1]) - length) +
+					splitted[0].slice(length - 4, length),
 				expires: [
-					Number.parseInt(splitted[1].slice(0, 2)) as CardExpires.Month,
-					Number.parseInt(splitted[1].slice(2, 4)) as CardExpires.Year,
+					Number.parseInt(splitted[2].slice(0, 2)) as CardExpires.Month,
+					Number.parseInt(splitted[2].slice(2, 4)) as CardExpires.Year,
 				],
+				key: splitted[3],
+				encrypted: splitted[4],
+				salt: splitted[5],
+				part: splitted.length > 6 && CardPart.is(splitted[6]) ? splitted[6] : undefined,
 			}
 		}
 		export function pack(card: Card, key: string, encrypted: string, salt: string): Token {
 			const length = card.pan.length
 			return [
 				card.pan.slice(0, 6) + card.pan.slice(length - 4, length),
+				card.pan.length.toString(),
 				card.expires[0].toString().padStart(2, "0") + card.expires[1].toString().padStart(2, "0"),
 				key,
 				encrypted,
 				salt,
 			].join("/")
 		}
+	}
+	export type Part = CardPart
+	export namespace Part {
+		export const values = CardPart.values
+		export const is = CardPart.is
 	}
 }
