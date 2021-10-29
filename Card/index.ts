@@ -46,10 +46,27 @@ export namespace Card {
 				// 4111111111/16/0222/1336/abcde01234-_ABCDE/abcde01234-_ABCDE/csc
 			)
 		}
+		export type Unpacked = CardMasked & {
+			key: string
+			encrypted: string
+			salt: string
+			part?: CardPart
+		}
+		export function unpack(token: Token): Unpacked
 		export function unpack(
-			token: Token
-		): CardMasked & { key: string; encrypted: string; salt: string; part?: CardPart } {
-			const splitted = token.split("/")
+			masked: string,
+			length: string,
+			expires: string,
+			key: string,
+			value: string,
+			salt: string,
+			part?: string
+		): Unpacked
+		export function unpack(token: string[]): Unpacked
+		export function unpack(...argument: [Token | string | string[], ...string[]]): Unpacked {
+			const splitted = argument.length == 1
+				? (typeof argument[0] == "string") ? argument[0].split("/") : argument[0]
+				: argument as string[]
 			const length = splitted[0].length
 			return {
 				masked:

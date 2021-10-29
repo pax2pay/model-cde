@@ -43,6 +43,26 @@ describe("@pax2pay/model.Card", () => {
 			part: undefined,
 		})
 	})
+	it("Token.unpack splitted", () => {
+		expect(model.Card.Token.unpack("4567897890", "16", "0221", "1336", "abcdefgh", "ABCDEFGH")).toEqual({
+			masked: "456789******7890",
+			expires: [2, 21],
+			key: "1336",
+			encrypted: "abcdefgh",
+			salt: "ABCDEFGH",
+			part: undefined,
+		})
+	})
+	it("Token.unpack splitted w/ part", () => {
+		expect(model.Card.Token.unpack("4567897890", "16", "0221", "1336", "abcdefgh", "ABCDEFGH", "pan")).toEqual({
+			masked: "456789******7890",
+			expires: [2, 21],
+			key: "1336",
+			encrypted: "abcdefgh",
+			salt: "ABCDEFGH",
+			part: "pan",
+		})
+	})
 	it("Token.unpack w/ part", () => {
 		const token = "4567897890/16/0221/1336/abcdefgh/ABCDEFGH/year"
 		expect(model.Card.Token.unpack(token)).toEqual({
