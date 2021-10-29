@@ -11,11 +11,11 @@ describe("@pax2pay/model.Card", () => {
 		).toEqual(true)
 	})
 	it("Token.is", () => {
-		const token = "4567897890/16/0221/1336/abcdefgh/ABCDEFGH"
+		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		expect(model.Card.Token.is(token)).toEqual(true)
 	})
 	it("Token.is w/ part", () => {
-		const token = "4567897890/16/0221/1336/abcdefgh/ABCDEFGH/csc"
+		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		expect(model.Card.Token.is(token)).toEqual(true)
 	})
 	it("Token.pack", () => {
@@ -26,51 +26,70 @@ describe("@pax2pay/model.Card", () => {
 					csc: "987",
 					expires: [2, 21],
 				},
-				"1336",
-				"abcdefgh",
-				"ABCDEFGH"
+				"1354",
+				"0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+				"FlBUNQjpk4R9g_dcw6WYzQ"
 			)
-		).toEqual("4567897890/16/0221/1336/abcdefgh/ABCDEFGH")
+		).toEqual("4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ")
 	})
 	it("Token.unpack", () => {
-		const token = "4567897890/16/0221/1336/abcdefgh/ABCDEFGH"
+		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		expect(model.Card.Token.unpack(token)).toEqual({
 			masked: "456789******7890",
 			expires: [2, 21],
-			key: "1336",
-			encrypted: "abcdefgh",
-			salt: "ABCDEFGH",
+			key: "1354",
+			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
 			part: undefined,
 		})
 	})
 	it("Token.unpack splitted", () => {
-		expect(model.Card.Token.unpack("4567897890", "16", "0221", "1336", "abcdefgh", "ABCDEFGH")).toEqual({
+		expect(
+			model.Card.Token.unpack(
+				"4567897890",
+				"16",
+				"0221",
+				"1354",
+				"0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+				"FlBUNQjpk4R9g_dcw6WYzQ"
+			)
+		).toEqual({
 			masked: "456789******7890",
 			expires: [2, 21],
-			key: "1336",
-			encrypted: "abcdefgh",
-			salt: "ABCDEFGH",
+			key: "1354",
+			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
 			part: undefined,
 		})
 	})
 	it("Token.unpack splitted w/ part", () => {
-		expect(model.Card.Token.unpack("4567897890", "16", "0221", "1336", "abcdefgh", "ABCDEFGH", "pan")).toEqual({
+		expect(
+			model.Card.Token.unpack(
+				"4567897890",
+				"16",
+				"0221",
+				"1354",
+				"0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+				"FlBUNQjpk4R9g_dcw6WYzQ",
+				"pan"
+			)
+		).toEqual({
 			masked: "456789******7890",
 			expires: [2, 21],
-			key: "1336",
-			encrypted: "abcdefgh",
-			salt: "ABCDEFGH",
+			key: "1354",
+			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
 			part: "pan",
 		})
 	})
 	it("Token.unpack w/ part", () => {
-		const token = "4567897890/16/0221/1336/abcdefgh/ABCDEFGH/year"
+		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
 		expect(model.Card.Token.unpack(token)).toEqual({
 			masked: "456789******7890",
 			expires: [2, 21],
-			key: "1336",
-			encrypted: "abcdefgh",
-			salt: "ABCDEFGH",
+			key: "1354",
+			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
 			part: "year",
 		})
 	})

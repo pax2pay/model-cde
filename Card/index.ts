@@ -42,8 +42,8 @@ export namespace Card {
 				)
 				// masked/length/expires/key/encrypted/salt
 				// masked/length/expires/key/encrypted/salt/part
-				// 4111111111/16/0222/1336/abcde01234-_ABCDE/abcde01234-_ABCDE
-				// 4111111111/16/0222/1336/abcde01234-_ABCDE/abcde01234-_ABCDE/csc
+				// 4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ
+				// 4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/csc
 			)
 		}
 		export type Unpacked = CardMasked & {
