@@ -1,6 +1,6 @@
 {
 	"name": "@pax2pay/model-cde",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "Model for the Pax2Pay Card Data API.",
 	"author": "Pax2Pay Ltd.",
 	"license": "MIT",
@@ -52,20 +52,20 @@
 		"test": "jest --maxWorkers=2",
 		"test:watch": "watch jest",
 		"prepare": "npm run build",
-    "clean": "rimraf dist node_modules coverage"
+		"clean": "rimraf dist node_modules coverage"
 	},
 	"devDependencies": {
-    "@types/jest": "^27.0.2",
-    "@typescript-eslint/eslint-plugin": "5.1.0",
-    "@typescript-eslint/parser": "5.1.0",
-    "eslint": "8.0.1",
-    "eslint-plugin-prettierx": "github:nilssonemma/eslint-plugin-prettierx#master",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
-    "jest": "^27.3.1",
-    "prettierx": "github:simonmika/prettierx#newline-before-clause",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^27.0.7",
-    "typescript": "^4.4.4",
+		"@types/jest": "^27.0.2",
+		"@typescript-eslint/eslint-plugin": "5.1.0",
+		"@typescript-eslint/parser": "5.1.0",
+		"eslint": "8.0.1",
+		"eslint-plugin-prettierx": "github:nilssonemma/eslint-plugin-prettierx#master",
+		"eslint-plugin-simple-import-sort": "^7.0.0",
+		"jest": "^27.3.1",
+		"prettierx": "github:simonmika/prettierx#newline-before-clause",
+		"rimraf": "^3.0.2",
+		"ts-jest": "^27.0.7",
+		"typescript": "^4.4.4",
 		"watch": "^1.0.2"
 	}
 }
