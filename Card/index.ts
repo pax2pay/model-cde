@@ -16,9 +16,22 @@ export namespace Card {
 			typeof value.csc == "string"
 		)
 	}
+	export function mask(card: Card): CardMasked {
+		const length = card.pan.length
+		const iin = card.pan.slice(0, 6)
+		const last4 = card.pan.slice(length - 4, length)
+		return {
+			masked: iin + "*".repeat(length - 10) + last4,
+			iin,
+			last4,
+			expires: card.expires,
+		}
+	}
 	export type Expires = CardExpires
 	export namespace Expires {
 		export const is = CardExpires.is
+		export const stringify = CardExpires.stringify
+		export const parse = CardExpires.parse
 		export type Month = CardExpires.Month
 		export namespace Month {
 			export const is = CardExpires.Month.is
@@ -79,11 +92,12 @@ export namespace Card {
 					? argument[0].split("/")
 					: argument[0]
 			const length = splitted[0].length
+			const iin = splitted[0].slice(0, length - 4)
+			const last4 = splitted[0].slice(length - 4, length)
 			return {
-				masked:
-					splitted[0].slice(0, length - 4) +
-					"*".repeat(Number.parseInt(splitted[1]) - length) +
-					splitted[0].slice(length - 4, length),
+				masked: iin + "*".repeat(Number.parseInt(splitted[1]) - length) + last4,
+				iin,
+				last4,
 				expires: [
 					Number.parseInt(splitted[2].slice(0, 2)) as CardExpires.Month,
 					Number.parseInt(splitted[2].slice(2, 4)) as CardExpires.Year,
@@ -95,9 +109,9 @@ export namespace Card {
 			}
 		}
 		export function pack(card: Card, key: string, encrypted: string, salt: string): Token {
-			const length = card.pan.length
+			const masked = mask(card)
 			return [
-				card.pan.slice(0, 6) + card.pan.slice(length - 4, length),
+				masked.iin + masked.last4,
 				card.pan.length.toString(),
 				card.expires[0].toString().padStart(2, "0") + card.expires[1].toString().padStart(2, "0"),
 				key,

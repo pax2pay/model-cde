@@ -36,6 +36,8 @@ describe("@pax2pay/model.Card", () => {
 		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		expect(model.Card.Token.unpack(token)).toEqual({
 			masked: "456789******7890",
+			iin: "456789",
+			last4: "7890",
 			expires: [2, 21],
 			key: "1354",
 			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
@@ -55,6 +57,8 @@ describe("@pax2pay/model.Card", () => {
 			)
 		).toEqual({
 			masked: "456789******7890",
+			iin: "456789",
+			last4: "7890",
 			expires: [2, 21],
 			key: "1354",
 			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
@@ -75,6 +79,8 @@ describe("@pax2pay/model.Card", () => {
 			)
 		).toEqual({
 			masked: "456789******7890",
+			iin: "456789",
+			last4: "7890",
 			expires: [2, 21],
 			key: "1354",
 			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
@@ -86,6 +92,8 @@ describe("@pax2pay/model.Card", () => {
 		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
 		expect(model.Card.Token.unpack(token)).toEqual({
 			masked: "456789******7890",
+			iin: "456789",
+			last4: "7890",
 			expires: [2, 21],
 			key: "1354",
 			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",

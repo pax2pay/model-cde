@@ -10,6 +10,6 @@
 		"allowSyntheticDefaultImports":true
 	},
 	"files": [
-		"index.ts",
+		"index.ts", "./Proxy/Configuration/Request.ts", "./Proxy/Configuration/Response.ts",
 	]
 }
