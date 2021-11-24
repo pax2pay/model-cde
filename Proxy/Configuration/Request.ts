@@ -1,5 +1,5 @@
 export interface Request {
-	authentication?: string | (string | undefined)[];
-	url: string;
-	process?: boolean;
+	authentication?: string | (string | undefined)[]
+	url: string
+	process?: boolean
 }

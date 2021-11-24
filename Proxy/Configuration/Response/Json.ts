@@ -1,7 +1,7 @@
-import { Card } from "../../Card"
-import { Selector } from "../Selector"
+import { Card } from "../../../Card"
+import { Selector } from "../../Selector"
 
-export interface Response {
+export interface Json {
 	card: {
 		pan: Selector
 		csc: Selector
@@ -16,8 +16,8 @@ export interface Response {
 		| string
 	)[]
 }
-export namespace Response {
-	export function extract(configuration: Response, body: Record<string, any>): Card {
+export namespace Json {
+	export function extract(configuration: Json, body: Record<string, any>): Card {
 		return {
 			pan: Selector.get<string>(body, configuration.card.pan),
 			csc: Selector.get<string>(body, configuration.card.csc),
@@ -27,7 +27,7 @@ export namespace Response {
 			],
 		}
 	}
-	export function process(configuration: Response, token: Card.Token, body: Record<string, any>): Record<string, any> {
+	export function process(configuration: Json, token: Card.Token, body: Record<string, any>): Record<string, any> {
 		const masked: Card.Masked = Card.Token.unpack(token)
 		const variables = {
 			token,

@@ -1,9 +1,8 @@
-import { Card } from "../../Card"
-import { Response } from "./Response"
+import * as model from "../../../index"
 
 describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 	it("set ", () => {
-		const configuration: Response = {
+		const configuration: model.Proxy.Configuration.Response.Json = {
 			card: {
 				pan: "card.pan",
 				csc: "card.csc",
@@ -29,11 +28,11 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 				expires: [2, 22],
 			},
 		}
-		const card = Response.extract(configuration, data)
+		const card = model.Proxy.Configuration.Response.Json.extract(configuration, data)
 		expect(card).toEqual(data.card)
-		const token: Card.Token =
+		const token: model.Card.Token =
 			"4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
-		const processed = Response.process(configuration, token, data)
+		const processed = model.Proxy.Configuration.Response.Json.process(configuration, token, data)
 		expect(processed).toEqual({
 			card: {
 				expires: [2, 22],
