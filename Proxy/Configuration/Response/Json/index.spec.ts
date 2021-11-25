@@ -10,6 +10,8 @@ const data3 = dataset[2]
 const data4 = dataset[3]
 const data5 = dataset[4]
 const data6 = dataset[5]
+const data7 = dataset[6]
+const data8 = dataset[7]
 describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 	it("set ", () => {
 		const card = model.Proxy.Configuration.Response.Json.extract(configuration1, data1)
@@ -26,7 +28,7 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 		})
 	})
 
-	it("extract, date list", () => {
+	it("extract, date list string 2, 22", () => {
 		const card = model.Proxy.Configuration.Response.Json.extract(configuration1, data2)
 		expect(model.Card.is(card))
 		expect(card).toEqual({
@@ -56,7 +58,7 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 		})
 	})
 
-	it("extract, date string .", () => {
+	it("extract, date string /", () => {
 		const card = model.Proxy.Configuration.Response.Json.extract(configuration2, data5)
 		expect(model.Card.is(card))
 		expect(card).toEqual({
@@ -66,8 +68,28 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 		})
 	})
 
-	it("extract, date string .", () => {
+	it("extract, date string 222", () => {
 		const card = model.Proxy.Configuration.Response.Json.extract(configuration2, data6)
+		expect(model.Card.is(card))
+		expect(card).toEqual({
+			pan: "4567890123457890",
+			csc: "987",
+			expires: [2, 22],
+		})
+	})
+
+	it("extract, date list string 2, 2022", () => {
+		const card = model.Proxy.Configuration.Response.Json.extract(configuration1, data7)
+		expect(model.Card.is(card))
+		expect(card).toEqual({
+			pan: "4567890123457890",
+			csc: "987",
+			expires: [2, 22],
+		})
+	})
+
+	it("extract, date list number 2, 2022", () => {
+		const card = model.Proxy.Configuration.Response.Json.extract(configuration1, data8)
 		expect(model.Card.is(card))
 		expect(card).toEqual({
 			pan: "4567890123457890",

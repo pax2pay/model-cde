@@ -29,7 +29,11 @@ export namespace Json {
 			if (typeof month == "string")
 				month = parseInt(month)
 			if (typeof year == "string")
-				year = parseInt(year)
+				year = parseInt(year.substring(year.length - 2))
+			else if (typeof year == "number" && year > 99) {
+				const yearString = year.toString()
+				year = parseInt(yearString.substring(yearString.length - 2))
+			}
 		}
 		return {
 			pan: Selector.get<string>(body, configuration.card.pan),

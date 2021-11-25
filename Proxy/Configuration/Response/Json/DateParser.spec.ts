@@ -47,4 +47,13 @@ describe("non-separated date", () => {
 		expect(month).toEqual(1)
 		expect(year).toEqual(22)
 	})
+
+	it("5/2023", () => {
+		const date = "5/2023"
+		const month = model.Proxy.Configuration.Response.DateParser.parseMonth(date)
+		const year = model.Proxy.Configuration.Response.DateParser.parseYear(date)
+
+		expect(month).toEqual(5)
+		expect(year).toEqual(23)
+	})
 })
