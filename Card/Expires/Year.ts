@@ -104,4 +104,8 @@ export namespace Year {
 	export function is(value: Year | any): value is Year {
 		return typeof value == "number" && Number.isInteger(value) && value >= 0 && value <= 99
 	}
+	export function parse(year: string): Year | undefined {
+		const result = parseInt(year) % 100
+		return is(result) ? result : undefined
+	}
 }

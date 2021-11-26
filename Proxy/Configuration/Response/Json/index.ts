@@ -1,14 +1,19 @@
 import { Card } from "../../../../Card"
 import { Selector } from "../../../Selector"
-import { DateParser as JsonDateParser } from "./DateParser"
 
 export interface Json {
 	card: {
 		pan: Selector
 		csc: Selector
-		month: Selector
-		year: Selector
-	}
+	} & (
+		| {
+				month: Selector
+				year: Selector
+		  }
+		| {
+				expires?: Selector
+		  }
+	)
 	set: (
 		| {
 				find: Selector
@@ -18,6 +23,20 @@ export interface Json {
 	)[]
 }
 export namespace Json {
+	export function is(value: Json | any): value is Json {
+		return (
+			typeof value == "object" &&
+			typeof value.card == "object" &&
+			typeof 
+		)
+	}
+	export function hasExpires(value: Json): value is Json & { card: { expires: Selector }} {
+		return Selector.is((value.card as any).expires)
+	}
+	export function hasMonthYear(value: Json): value is Json & { card: { 	month: Selector
+				year: Selector }} {
+		return Selector.is((value.card as any).year) && Selector.is((value.card as any).year)
+	}
 	export function extract(configuration: Json, body: Record<string, any>): Card {
 		let month = Selector.get(body, configuration.card.month)
 		let year = Selector.get(body, configuration.card.year)
@@ -62,10 +81,5 @@ export namespace Json {
 	}
 	function replace(data: string, variables: Record<string, string | undefined>): string {
 		return data.replaceAll(/\$\(([a-zA-Z]\w*)\)/g, (match, variable) => variables[variable] || match)
-	}
-
-	export namespace DateParser {
-		export const parseMonth = JsonDateParser.parseMonth
-		export const parseYear = JsonDateParser.parseYear
 	}
 }

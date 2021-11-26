@@ -1,6 +1,10 @@
 export type Selector = string
 
 export namespace Selector {
+	export function is(value: Selector | any): value is Selector {
+		return typeof value == "string" && /^(\w|\[\\d+\])(\.(\w|\[\\d+\]))*$/.test(value)
+	}
+
 	function parse(selector: Selector): (string | number)[] {
 		return selector
 			.split(".")

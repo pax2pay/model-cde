@@ -16,9 +16,5 @@ export namespace Configuration {
 			export const extract = ConfigurationResponse.Json.extract
 			export const process = ConfigurationResponse.Json.process
 		}
-		export namespace DateParser {
-			export const parseMonth = ConfigurationResponse.DateParser.parseMonth
-			export const parseYear = ConfigurationResponse.DateParser.parseYear
-		}
 	}
 }
