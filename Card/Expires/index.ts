@@ -2,7 +2,7 @@ import { Month as ExpiresMonth } from "./Month"
 import { Year as ExpiresYear } from "./Year"
 
 
-export type Expires = [ExpiresMonth, ExpiresYear]
+export type Expires = [ExpiresMonth, ExpiresYear] | [0, 0]
 
 export namespace Expires {
 	export function is(value: Expires | any): value is Expires {

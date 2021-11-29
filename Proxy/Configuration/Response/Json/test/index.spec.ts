@@ -1,4 +1,4 @@
-import * as model from "../../../../index"
+import * as model from "../../../../../index"
 import { configurations } from "./configurations"
 import { dataset } from "./dataset"
 

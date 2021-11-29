@@ -2,7 +2,7 @@ export type Selector = string
 
 export namespace Selector {
 	export function is(value: Selector | any): value is Selector {
-		return typeof value == "string" && /^(\w|\[\\d+\])(\.(\w|\[\\d+\]))*$/.test(value)
+		return typeof value == "string" && /^(([a-zA-Z]\w*)*(\[\d+\])*){1}(\.[a-zA-Z]\w*(\[\d+\])*)*$/g.test(value)
 	}
 
 	function parse(selector: Selector): (string | number)[] {

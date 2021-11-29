@@ -28,5 +28,6 @@
 		"cryptly",
 		"gracely",
 		"isoly"
-	]
+	],
+	"jest.jestCommandLine": "npm run test --"
 }

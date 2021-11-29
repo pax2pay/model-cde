@@ -1,4 +1,4 @@
-import * as model from "../../../../index"
+import * as model from "../../../../../index"
 
 export const configurations: model.Proxy.Configuration.Response.Json[] = [
 	{
@@ -24,8 +24,7 @@ export const configurations: model.Proxy.Configuration.Response.Json[] = [
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",
-			month: "card.expires",
-			year: "card.expires",
+			expires: "card.expires",
 		},
 		set: [
 			{
