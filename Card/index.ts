@@ -35,10 +35,12 @@ export namespace Card {
 		export type Month = CardExpires.Month
 		export namespace Month {
 			export const is = CardExpires.Month.is
+			export const parse = CardExpires.Month.parse
 		}
 		export type Year = CardExpires.Year
 		export namespace Year {
 			export const is = CardExpires.Year.is
+			export const parse = CardExpires.Year.parse
 		}
 	}
 	export type Masked = CardMasked

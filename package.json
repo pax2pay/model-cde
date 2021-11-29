@@ -34,7 +34,9 @@
 		"testRegex": "((\\.|/)(test|spec))(\\.|\\/.+)(jsx?|tsx?)$",
 		"testPathIgnorePatterns": [
 			"node_modules/",
-			"dist/"
+			"dist/",
+			"Proxy/Configuration/Response/Json/test/configurations.ts",
+			"Proxy/Configuration/Response/Json/test/dataset.ts"
 		],
 		"collectCoverageFrom": [
 			"**/*.{ts,tsx,js,jsx}",

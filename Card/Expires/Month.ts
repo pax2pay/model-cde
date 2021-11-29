@@ -4,4 +4,8 @@ export namespace Month {
 	export function is(value: Month | any): value is Month {
 		return typeof value == "number" && Number.isInteger(value) && value >= 1 && value <= 12
 	}
+	export function parse(month: string): Month | undefined {
+		const result = parseInt(month)
+		return is(result) ? result : undefined
+	}
 }
