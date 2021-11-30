@@ -38,4 +38,21 @@ export const configurations: model.Proxy.Configuration.Response.Json[] = [
 			},
 		],
 	},
+	{
+		card: {
+			pan: "card.pan",
+			csc: "card.csc",
+		},
+		set: [
+			{
+				find: "card.pan",
+				value: "$(masked)",
+			},
+			"card.csc",
+			{
+				find: "card.token",
+				value: "$(token)",
+			},
+		],
+	},
 ]
