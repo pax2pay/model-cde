@@ -4,6 +4,7 @@ import { dataset } from "./dataset"
 
 const configuration1 = configurations[0]
 const configuration2 = configurations[1]
+const configuration3 = configurations[2]
 const data1 = dataset[0]
 const data2 = dataset[1]
 const data3 = dataset[2]
@@ -12,6 +13,7 @@ const data5 = dataset[4]
 const data6 = dataset[5]
 const data7 = dataset[6]
 const data8 = dataset[7]
+const data9 = dataset[8]
 describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 	it("set ", () => {
 		const card = model.Proxy.Configuration.Response.Json.extract(configuration1, data1)
@@ -95,6 +97,16 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 			pan: "4567890123457890",
 			csc: "987",
 			expires: [2, 22],
+		})
+	})
+
+	it("extract, without expiry", () => {
+		const card = model.Proxy.Configuration.Response.Json.extract(configuration3, data9)
+		expect(model.Card.is(card))
+		expect(card).toEqual({
+			pan: "1234123412341234",
+			csc: "123",
+			expires: [0, 0],
 		})
 	})
 })

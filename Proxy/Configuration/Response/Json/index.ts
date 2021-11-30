@@ -1,19 +1,55 @@
 import { Card } from "../../../../Card"
 import { Selector } from "../../../Selector"
 
+interface CardBase {
+	pan: Selector
+	csc: Selector
+}
+namespace CardBase {
+	export function is(value: CardBase | any): value is CardBase {
+		return typeof value == "object" && value.pan && Selector.is(value.pan) && value.csc && Selector.is(value.csc)
+	}
+}
+
+interface CardMonthYear extends CardBase {
+	month: Selector
+	year: Selector
+}
+namespace CardMonthYear {
+	export function is(value: CardMonthYear | any): value is CardMonthYear {
+		return (
+			typeof value == "object" &&
+			value.pan &&
+			Selector.is(value.pan) &&
+			value.csc &&
+			Selector.is(value.csc) &&
+			value.month &&
+			Selector.is(value.month) &&
+			value.year &&
+			Selector.is(value.year)
+		)
+	}
+}
+
+interface CardExpires extends CardBase {
+	expires: Selector
+}
+namespace CardExpires {
+	export function is(value: CardExpires | any): value is CardExpires {
+		return (
+			typeof value == "object" &&
+			value.pan &&
+			Selector.is(value.pan) &&
+			value.csc &&
+			Selector.is(value.csc) &&
+			value.expires &&
+			Selector.is(value.expires)
+		)
+	}
+}
+
 export interface Json {
-	card: {
-		pan: Selector
-		csc: Selector
-	} & (
-		| {
-				month: Selector
-				year: Selector
-		  }
-		| {
-				expires?: Selector
-		  }
-	)
+	card: CardBase | CardMonthYear | CardExpires
 	set: (
 		| {
 				find: Selector
@@ -59,10 +95,10 @@ export namespace Json {
 		let month: Card.Expires.Month | undefined | 0
 		let year: Card.Expires.Year | undefined | 0
 
-		if ("month" in configuration.card && "year" in configuration.card) {
+		if (CardMonthYear.is(configuration.card)) {
 			month = Card.Expires.Month.parse(Selector.get(body, configuration.card.month))
 			year = Card.Expires.Year.parse(Selector.get(body, configuration.card.year))
-		} else if ("expires" in configuration.card && configuration.card.expires != undefined) {
+		} else if (CardExpires.is(configuration.card)) {
 			const monthYear = Card.Expires.parse(Selector.get(body, configuration.card.expires))
 			month = monthYear ? monthYear[0] : undefined
 			year = monthYear ? monthYear[1] : undefined
