@@ -12,7 +12,8 @@ export namespace Card {
 		return (
 			typeof value == "object" &&
 			typeof value.pan == "string" &&
-			(CardExpires.is(value.expires) || value.expires == [0, 0]) &&
+			(CardExpires.is(value.expires) ||
+				(Array.isArray(value.expires) && value.expires[0] == 0 && value.expires[1] == 0)) &&
 			typeof value.csc == "string"
 		)
 	}
