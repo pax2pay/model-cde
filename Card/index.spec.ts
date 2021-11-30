@@ -10,6 +10,16 @@ describe("@pax2pay/model.Card", () => {
 			})
 		).toEqual(true)
 	})
+
+	it("is, expiry [0,0]", () => {
+		expect(
+			model.Card.is({
+				pan: "5555555555555555",
+				csc: "333",
+				expires: [0, 0],
+			})
+		).toEqual(true)
+	})
 	it("Token.is", () => {
 		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		expect(model.Card.Token.is(token)).toEqual(true)
