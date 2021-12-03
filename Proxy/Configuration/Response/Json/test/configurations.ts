@@ -1,7 +1,5 @@
-import * as model from "../../../../../index"
-
-export const configurations: model.Proxy.Configuration.Response.Json[] = [
-	{
+export const configurations = {
+	monthYear: {
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",
@@ -20,7 +18,7 @@ export const configurations: model.Proxy.Configuration.Response.Json[] = [
 			},
 		],
 	},
-	{
+	expires: {
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",
@@ -38,7 +36,7 @@ export const configurations: model.Proxy.Configuration.Response.Json[] = [
 			},
 		],
 	},
-	{
+	noExpires: {
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",
@@ -55,4 +53,54 @@ export const configurations: model.Proxy.Configuration.Response.Json[] = [
 			},
 		],
 	},
-]
+	encrypted: {
+		card: {
+			pan: "card.pan",
+			csc: "card.csc",
+			month: "card.expires[0]",
+			year: "card.expires[1]",
+		},
+		set: [
+			{
+				find: "card.pan",
+				value: "$(masked)",
+			},
+			"card.csc",
+			{
+				find: "card.token",
+				value: "$(encrypted)",
+			},
+		],
+	},
+	maskedAndEncrypted: {
+		card: {
+			pan: "card.pan",
+			csc: "card.csc",
+			month: "card.expires[0]",
+			year: "card.expires[1]",
+		},
+		set: [
+			{
+				find: "card.pan",
+				value: "$(maskedAndEncrypted)",
+			},
+			"card.csc",
+		],
+	},
+	modulrToken: {
+		card: {
+			pan: "pan",
+			csc: "cvv2",
+		},
+		set: [
+			{
+				find: "pan",
+				value: "$(token)",
+			},
+			{
+				find: "cvv2",
+				value: "***",
+			},
+		],
+	},
+}
