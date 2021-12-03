@@ -111,10 +111,11 @@ export namespace Json {
 		}
 	}
 	export function process(configuration: Json, token: Card.Token, body: Record<string, any>): Record<string, any> {
-		const masked: Card.Masked = Card.Token.unpack(token)
+		const masked: Card.Token.Unpacked = Card.Token.unpack(token)
 		const variables = {
 			token,
 			...masked,
+			maskedAndEncrypted: [masked.masked, masked.encrypted].join("/"),
 			expires: Card.Expires.stringify(masked.expires),
 			month: masked.expires[0].toString(),
 			year: masked.expires[1].toString(),
