@@ -53,13 +53,18 @@ export namespace Card {
 		export function is(value: any | Token): value is Token {
 			return (
 				typeof value == "string" &&
-				/[0-9]{10,12}\/[0-9]{2}\/[0-1][0-9]{3}\/[0-2][0-9][0-6][0,2,4,6,8]\/[a-z,A-Z,0-9\-_]+\/[a-z,A-Z,0-9\-_]+(\/(pan|csc|expires|month|year|masked))?/.test(
+				/^(\d{10,12})\/(\d{2})\/([0-1]\d{3})\/(([0-2]\d[0-6][02468])|(((([02468][048])|([13579][2,6]))(02((0[1-9])|([1-2]\d))))|(\d{2}((((0[13578])|(1[02]))((0[1-9])|(1|2\d)|(3[01])))|(02((0[1-9])|(1\d)|(2[0-8])))|(((0[469])|(11))((0[1-9])|([1-2]\d)|(30)))))))\/[a-z,A-Z,0-9\-_]{48}\/[a-z,A-Z,0-9\-_]{22}(\/(pan|csc|expires|month|year|masked))?$/.test(
 					value
 				)
+
+				//long term token regexp 6 length
+				//^(((([02468][048])|([13579][2,6]))(02((0[1-9])|([1-2][0-9]))))|(\d{2}((((0[13578])|(1[02]))((0[1-9])|(1|2[0-9])|(3[01])))|(02((0[1-9])|(1[0-9])|(2[0-8])))|(((0[469])|(11))((0[1-9])|([1-2][0-9])|(30))))))$
+
 				// masked/length/expires/key/encrypted/salt
 				// masked/length/expires/key/encrypted/salt/part
 				// 4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ
 				// 4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/csc
+				// 4567897890/16/0221/220101/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ
 			)
 		}
 		export type Unpacked = CardMasked & {
