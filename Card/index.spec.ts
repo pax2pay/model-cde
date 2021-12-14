@@ -124,13 +124,16 @@ describe("@pax2pay/model.Card", () => {
 		let token =
 			"4567897890/16123/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
 		expect(model.Card.Token.is(token)).toBeFalsy()
-		token = "4567897890/16/0221/211224/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ123aswer12/year"
+		token =
+			"4567897890/16/0221/211224/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ123aswer12/year"
 		expect(model.Card.Token.is(token)).toBeFalsy()
-		token = "4567897890/16/0221/211224/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBsdhehaehBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
+		token =
+			"4567897890/16/0221/211224/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBsdhehaehBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
 		expect(model.Card.Token.is(token)).toBeFalsy()
 		token = "4567897890/16/0221/21122/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
 		expect(model.Card.Token.is(token)).toBeFalsy()
-		token = "456789789012341254/16/0221/211224/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
+		token =
+			"456789789012341254/16/0221/211224/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
 		expect(model.Card.Token.is(token)).toBeFalsy()
 	})
 })
