@@ -6,6 +6,7 @@ export interface Card {
 	pan: string
 	expires: CardExpires
 	csc: string
+	lapses?: string
 }
 export namespace Card {
 	export function is(value: any | Card): value is Card {
@@ -53,7 +54,7 @@ export namespace Card {
 		export function is(value: any | Token): value is Token {
 			return (
 				typeof value == "string" &&
-				/^(\d{10,12})\/(\d{2})\/([0-1]\d{3})\/(([0-2]\d[0-6][02468])|(((([02468][048])|([13579][2,6]))(02((0[1-9])|([1-2]\d))))|(\d{2}((((0[13578])|(1[02]))((0[1-9])|(1|2\d)|(3[01])))|(02((0[1-9])|(1\d)|(2[0-8])))|(((0[469])|(11))((0[1-9])|([1-2]\d)|(30)))))))\/[a-z,A-Z,0-9\-_]{48}\/[a-z,A-Z,0-9\-_]{22}(\/(pan|csc|expires|month|year|masked))?$/.test(
+				/^(\d{10,12})\/(\d{2})\/([0-1]\d{3})\/(([0-2]\d[0-6][02468])|(((([02468][048])|([13579][2,6]))(02((0[1-9])|([1-2]\d))))|(\d{2}((((0[13578])|(1[02]))((0[1-9])|([1-2]\d)|(3[01])))|(02((0[1-9])|(1\d)|(2[0-8])))|(((0[469])|(11))((0[1-9])|([1-2]\d)|(30)))))))\/[a-z,A-Z,0-9\-_]{48}\/[a-z,A-Z,0-9\-_]{22}(\/(pan|csc|expires|month|year|masked))?$/.test(
 					value
 				)
 
