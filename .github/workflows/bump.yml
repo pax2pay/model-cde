@@ -26,6 +26,7 @@ jobs:
         id: version-bump
         uses: "phips28/gh-action-bump-version@master"
         with:
-          tag-prefix: ''
+          tag-prefix: 'release-'
+          bump_package-lock: true
         env:
           GITHUB_TOKEN: ${{ secrets.ADMIN_TOKEN }}
