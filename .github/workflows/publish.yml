@@ -1,8 +1,9 @@
 name: "Publish"
 
 on:
-  tags:
-    - "release-*"
+  push:
+    tags:
+      - "release-*"
 jobs:
   publish:
     name: "Publish from master"
