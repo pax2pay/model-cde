@@ -1,3 +1,4 @@
+import * as isoly from "isoly"
 import { Expires as CardExpires } from "./Expires"
 import { Masked as CardMasked } from "./Masked"
 import { Part as CardPart } from "./Part"
@@ -6,7 +7,7 @@ export interface Card {
 	pan: string
 	expires: CardExpires
 	csc: string
-	lapses?: string
+	lapses?: isoly.Date
 }
 export namespace Card {
 	export function is(value: any | Card): value is Card {
@@ -15,19 +16,23 @@ export namespace Card {
 			typeof value.pan == "string" &&
 			(CardExpires.is(value.expires) ||
 				(Array.isArray(value.expires) && value.expires[0] == 0 && value.expires[1] == 0)) &&
-			typeof value.csc == "string"
+			typeof value.csc == "string" &&
+			(value.lapses == undefined || isoly.Date.is(value.lapses))
 		)
 	}
 	export function mask(card: Card): CardMasked {
 		const length = card.pan.length
 		const iin = card.pan.slice(0, 6)
 		const last4 = card.pan.slice(length - 4, length)
-		return {
+		const result: CardMasked = {
 			masked: iin + "*".repeat(length - 10) + last4,
 			iin,
 			last4,
 			expires: card.expires,
 		}
+		if (card.lapses)
+			result.lapses = card.lapses
+		return result
 	}
 	export type Expires = CardExpires
 	export namespace Expires {
@@ -103,7 +108,7 @@ export namespace Card {
 			const length = splitted[0].length
 			const iin = splitted[0].slice(0, length - 4)
 			const last4 = splitted[0].slice(length - 4, length)
-			return {
+			const result: Unpacked = {
 				masked: iin + "*".repeat(Number.parseInt(splitted[1]) - length) + last4,
 				iin,
 				last4,
@@ -116,6 +121,18 @@ export namespace Card {
 				salt: splitted[5],
 				part: splitted.length > 6 && CardPart.is(splitted[6]) ? splitted[6] : undefined,
 			}
+			if (result.key.length == 6) {
+				const lapses =
+					isoly.Date.now().substring(0, 2) +
+					result.key.substring(0, 2) +
+					"-" +
+					result.key.substring(2, 4) +
+					"-" +
+					result.key.substring(4, 6)
+				if (isoly.Date.is(lapses))
+					result.lapses = lapses
+			}
+			return result
 		}
 		export function pack(card: Card, key: string, encrypted: string, salt: string): Token {
 			const masked = mask(card)
