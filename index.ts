@@ -1,4 +1,5 @@
 import { Card } from "./Card"
-import * as Client from "./Client"
+import { Client } from "./Client"
 import * as Proxy from "./Proxy"
-export { Card, Proxy, Client }
+
+export { Card, Client, Proxy }
