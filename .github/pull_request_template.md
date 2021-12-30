@@ -1,5 +1,5 @@
 ## Change
-*(What is changed?)*
+*(What has changed?)*
 
 
 ## Rationale
@@ -7,7 +7,7 @@
 
 
 ## Impact
-*(What is the consequence of this change?)*
+*(What is the impact of this change?)*
 
 
 ## Risk
@@ -18,4 +18,3 @@
 ## Rollback
 - [ ] Rollback is performed by reverting the merge and redeploy.
 - [ ] Rollback of this change requires special actions as outlined below.
-
