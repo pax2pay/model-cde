@@ -71,7 +71,6 @@
 		"watch": "^0.13.0"
 	},
 	"dependencies": {
-		"@pax2pay/model": "^0.0.57",
 		"cloudly-http": "^0.0.41",
 		"cloudly-rest": "^0.0.8",
 		"gracely": "^0.0.44",
