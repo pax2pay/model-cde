@@ -72,7 +72,7 @@
 	},
 	"dependencies": {
 		"cloudly-http": "^0.0.41",
-		"cloudly-rest": "^0.0.9",
+		"cloudly-rest": "^0.0.10",
 		"gracely": "^0.0.44",
 		"isoly": "^0.1.19"
 	}
