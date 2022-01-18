@@ -4,7 +4,7 @@ export namespace Pattern {
 	export function is(value: Pattern | any): value is Pattern {
 		return typeof value == "string" || value instanceof RegExp
 	}
-	export function get(data: string, pattern: Pattern): string | undefined {
+	export function get(data: string, pattern: Pattern): string {
 		let result: string | null
 		if (typeof pattern == "string") {
 			const matched = data.match(new RegExp(pattern + ">" + "[^<]*"))
@@ -25,7 +25,7 @@ export namespace Pattern {
 		return result != null ? result.substr(result.indexOf(">") + 1) : ""
 	}
 
-	export function set(data: string, pattern: Pattern, value: string): string {
+	export function set(data: any, pattern: Pattern, value: any): string {
 		let result: string | null
 		let matched
 		if (typeof pattern == "string") {
@@ -52,6 +52,9 @@ export namespace Pattern {
 		}
 
 		result = data
+		if (result == null) {
+			throw Error
+		}
 		return result
 	}
 }
