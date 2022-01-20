@@ -41,7 +41,6 @@ export namespace Pattern {
 		}
 
 		for (const match of matched) {
-			console.log(match)
 			if (match.index) {
 				const length = match[0].length
 				const firstIndex = match.index + match[0].length
