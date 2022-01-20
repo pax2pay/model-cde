@@ -36,7 +36,9 @@
 			"node_modules/",
 			"dist/",
 			"Proxy/Configuration/Tokenize/Json/test/configurations.ts",
-			"Proxy/Configuration/Tokenize/Json/test/dataset.ts"
+			"Proxy/Configuration/Tokenize/Json/test/dataset.ts",
+			"Proxy/Configuration/Tokenize/Text/test/configurations.ts",
+			"Proxy/Configuration/Tokenize/Text/test/dataset.ts"
 		],
 		"collectCoverageFrom": [
 			"**/*.{ts,tsx,js,jsx}",
@@ -61,14 +63,14 @@
 		"@typescript-eslint/eslint-plugin": "5.8.1",
 		"@typescript-eslint/parser": "5.8.1",
 		"eslint": "^8.12.0",
-		"eslint-plugin-prettierx": "github:utily/eslint-plugin-prettierx#utily-20221021",
+		"eslint-plugin-prettierx": "github:utily/eslint-plugin-prettierx#utily-20221229",
 		"eslint-plugin-simple-import-sort": "^7.0.0",
 		"jest": "^27.5.1",
-		"prettierx": "github:utily/eslint-plugin-prettierx#utily-20221021",
+		"prettierx": "github:utily/eslint-plugin-prettierx#utily-20221229",
 		"rimraf": "^3.0.2",
-		"ts-jest": "^27.1.2",
+		"ts-jest": "^27.1.3",
 		"typescript": "^4.5.4",
-		"watch": "^0.13.0"
+		"watch": "^1.0.2"
 	},
 	"dependencies": {
 		"cloudly-http": "^0.0.41",
