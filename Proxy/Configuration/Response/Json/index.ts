@@ -50,6 +50,7 @@ namespace CardExpires {
 
 export interface Json {
 	card: CardBase | CardMonthYear | CardExpires
+	token?: Selector
 	set: (
 		| {
 				find: Selector
@@ -72,6 +73,7 @@ export namespace Json {
 			value.card.expires
 				? Selector.is(value.card.expires)
 				: value.card.expires == undefined) &&
+			(value.token == undefined || (value.token && Selector.is(value.token))) &&
 			value.set &&
 			Array.isArray(value.set) &&
 			value.set.array.every((element: string | Record<string, any>) => {
@@ -109,6 +111,17 @@ export namespace Json {
 			csc: Selector.get<string>(body, configuration.card.csc),
 			expires: month && year ? [month, year] : [0, 0],
 		}
+	}
+
+	export function extractToken(configuration: Json, body: Record<string, any>): string | undefined {
+		let result: string | undefined
+		if (!configuration.token) {
+			result = undefined
+		} else {
+			result = Selector.get<string>(body, configuration.token)
+		}
+
+		return result
 	}
 	export function process(configuration: Json, token: Card.Token, body: Record<string, any>): Record<string, any> {
 		const masked: Card.Token.Unpacked = Card.Token.unpack(token)
