@@ -103,4 +103,20 @@ export const configurations = {
 			},
 		],
 	},
+	reverseConfig: {
+		card: {
+			pan: "cardNumber",
+			csc: "cvv",
+		},
+		set: [
+			{
+				find: "cardNumber",
+				value: "$(pan)",
+			},
+			{
+				find: "cvv",
+				value: "$(csc)",
+			},
+		],
+	},
 }

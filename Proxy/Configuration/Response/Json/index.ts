@@ -130,6 +130,21 @@ export namespace Json {
 			)
 		}, body)
 	}
+	export function reverseProcess(
+		configuration: Json,
+		variables: Record<string, any>,
+		body: Record<string, any>
+	): Record<string, any> {
+		return configuration.set.reduce((r, replacement) => {
+			if (typeof replacement == "string")
+				replacement = { find: replacement }
+			return Selector.set(
+				r,
+				replacement.find,
+				replacement.value == undefined ? undefined : replace(replacement.value, variables)
+			)
+		}, body)
+	}
 	function replace(data: string, variables: Record<string, string | undefined>): string {
 		return data.replaceAll(/\$\(([a-zA-Z]\w*)\)/g, (match, variable) => variables[variable] || match)
 	}

@@ -163,4 +163,17 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 			expires: [0, 0],
 		})
 	})
+	it("reverseProcess", () => {
+		const variables = {
+			pan: "1234123412341234",
+			csc: "123",
+		}
+		const body = {
+			cardNumber: "thisIsAToken",
+			cvv: "***",
+		}
+		expect(
+			model.Proxy.Configuration.Response.Json.reverseProcess(configurations.reverseConfig, variables, body)
+		).toMatchObject({ cardNumber: "1234123412341234", cvv: "123" })
+	})
 })
