@@ -13,7 +13,7 @@ export namespace Configuration {
 	export namespace Response {
 		export type Json = ConfigurationResponse.Json
 		export namespace Json {
-			export const reverseProcess = ConfigurationResponse.Json.reverseProcess
+			export const fromToken = ConfigurationResponse.Json.fromToken
 			export const extract = ConfigurationResponse.Json.extract
 			export const process = ConfigurationResponse.Json.process
 		}

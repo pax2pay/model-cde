@@ -110,9 +110,9 @@ export namespace Json {
 			expires: month && year ? [month, year] : [0, 0],
 		}
 	}
-	export function process(configuration: Json, token: Card.Token, body: Record<string, any>): Record<string, any> {
+	export function fromToken(token: Card.Token): Record<string, any> {
 		const masked: Card.Token.Unpacked = Card.Token.unpack(token)
-		const variables = {
+		return {
 			token,
 			...masked,
 			maskedAndEncrypted: [masked.masked, masked.encrypted].join("/"),
@@ -120,17 +120,8 @@ export namespace Json {
 			month: masked.expires[0].toString(),
 			year: masked.expires[1].toString(),
 		}
-		return configuration.set.reduce((r, replacement) => {
-			if (typeof replacement == "string")
-				replacement = { find: replacement }
-			return Selector.set(
-				r,
-				replacement.find,
-				replacement.value == undefined ? undefined : replace(replacement.value, variables)
-			)
-		}, body)
 	}
-	export function reverseProcess(
+	export function process(
 		configuration: Json,
 		variables: Record<string, any>,
 		body: Record<string, any>

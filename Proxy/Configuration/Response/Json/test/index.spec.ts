@@ -10,7 +10,7 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 			"4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		const processed = model.Proxy.Configuration.Response.Json.process(
 			configurations.monthYear,
-			token,
+			model.Proxy.Configuration.Response.Json.fromToken(token),
 			dataset.cardModelFormat
 		)
 		expect(processed).toEqual({
@@ -29,7 +29,7 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 			"4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		const processed = model.Proxy.Configuration.Response.Json.process(
 			configurations.encrypted,
-			token,
+			model.Proxy.Configuration.Response.Json.fromToken(token),
 			dataset.cardModelFormat
 		)
 		expect(processed).toEqual({
@@ -51,7 +51,7 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 			"4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		const processed = model.Proxy.Configuration.Response.Json.process(
 			configurations.maskedAndEncrypted,
-			token,
+			model.Proxy.Configuration.Response.Json.fromToken(token),
 			dataset.cardModelFormat
 		)
 		expect(processed).toEqual({
@@ -69,7 +69,7 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 			"4567897890/16/0000/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		const processed = model.Proxy.Configuration.Response.Json.process(
 			configurations.modulrToken,
-			token,
+			model.Proxy.Configuration.Response.Json.fromToken(token),
 			dataset.cardModulrNames
 		)
 		expect(processed).toEqual({
@@ -163,7 +163,7 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 			expires: [0, 0],
 		})
 	})
-	it("reverseProcess", () => {
+	it("reverse proxying process", () => {
 		const variables = {
 			pan: "1234123412341234",
 			csc: "123",
@@ -173,7 +173,7 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 			cvv: "***",
 		}
 		expect(
-			model.Proxy.Configuration.Response.Json.reverseProcess(configurations.reverseConfig, variables, body)
+			model.Proxy.Configuration.Response.Json.process(configurations.reverseConfig, variables, body)
 		).toMatchObject({ cardNumber: "1234123412341234", cvv: "123" })
 	})
 })
