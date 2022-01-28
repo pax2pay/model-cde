@@ -110,6 +110,12 @@ export namespace Json {
 			expires: month && year ? [month, year] : [0, 0],
 		}
 	}
+	/**
+	 * Creates an object containing different values of a token, intended to be used in the function named "process"
+	 *
+	 * @param token - A card token (Card.Token)
+	 * @returns An object containing a set of values
+	 */
 	export function fromToken(token: Card.Token): Record<string, any> {
 		const masked: Card.Token.Unpacked = Card.Token.unpack(token)
 		return {
@@ -121,6 +127,14 @@ export namespace Json {
 			year: masked.expires[1].toString(),
 		}
 	}
+	/**
+	 * Processes a response body and changes information in it given a configuration and a set of values.
+	 *
+	 * @param configuration - A proxy configuration
+	 * @param variables - Values available to swap information from @see fromToken(Card.Token)
+	 * @param body - Response body to process information in
+	 * @returns A modified body object, as specified by a configuration
+	 */
 	export function process(
 		configuration: Json,
 		variables: Record<string, any>,
