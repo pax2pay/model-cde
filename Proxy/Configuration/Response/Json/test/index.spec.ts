@@ -2,7 +2,7 @@ import * as model from "../../../../../index"
 import { configurations } from "./configurations"
 import { dataset } from "./dataset"
 
-describe("@pax2pay/model.Proxy.Configuration.Response", () => {
+describe("@pax2pay/model.Proxy.Configuration.Response.Json", () => {
 	it("set ", () => {
 		const card = model.Proxy.Configuration.Response.Json.extract(configurations.monthYear, dataset.cardModelFormat)
 		expect(card).toEqual(dataset.cardModelFormat.card)
