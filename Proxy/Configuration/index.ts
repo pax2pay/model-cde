@@ -1,17 +1,10 @@
 import { Request as ConfigurationRequest } from "./Request"
 import { Response as ConfigurationResponse } from "./Response"
 
-export type Configuration = NormalConfiguration | ReverseConfiguration
-
-interface NormalConfiguration {
+export interface Configuration {
 	id: string
 	request: ConfigurationRequest
-	response: ConfigurationResponse.Json
-}
-
-interface ReverseConfiguration {
-	id: string
-	request: ConfigurationRequest
+	response?: ConfigurationResponse.Json
 }
 
 export namespace Configuration {
