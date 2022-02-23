@@ -10,6 +10,9 @@ export class Card extends rest.Collection<gracely.Error> {
 	async getImage(token: modelCard.Token): Promise<string | gracely.Error> {
 		return await this.client.get<string>(`card/${token}`, { accept: ["image/svg+xml"] })
 	}
+	async getPDF(token: modelCard.Token): Promise<string | gracely.Error> {
+		return await this.client.get<string>(`card/${token}`, { accept: ["application/pdf"] })
+	}
 	async tokenize(card: modelCard): Promise<modelCard.Token | gracely.Error> {
 		return await this.client.post<modelCard.Token>("card", card)
 	}
