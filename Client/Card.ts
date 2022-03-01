@@ -10,12 +10,8 @@ export class Card extends rest.Collection<gracely.Error> {
 	async getImage(token: modelCard.Token): Promise<string | gracely.Error> {
 		return await this.client.get<string>(`card/${token}`, { accept: ["image/svg+xml"] })
 	}
-	async getPDF(token: modelCard.Token): Promise<http.Response | gracely.Error> {
-		const response = await this.client.get<http.Response>(`card/${token}`, { accept: ["application/pdf"] })
-
-		return !gracely.Error.is(response)
-			? { ...response, header: { ...response.header, accessControlAllowOrigin: "*" } }
-			: response
+	async getPDF(token: modelCard.Token): Promise<Uint8Array | gracely.Error> {
+		return await this.client.get<Uint8Array>(`card/${token}`, { accept: ["application/pdf"] })
 	}
 	async tokenize(card: modelCard): Promise<modelCard.Token | gracely.Error> {
 		return await this.client.post<modelCard.Token>("card", card)
