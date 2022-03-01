@@ -4,7 +4,7 @@ import { Response as ConfigurationResponse } from "./Response"
 export interface Configuration {
 	id: string
 	request: ConfigurationRequest
-	response: ConfigurationResponse.Json
+	response?: ConfigurationResponse.Json
 }
 
 export namespace Configuration {
