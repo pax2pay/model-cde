@@ -1,20 +1,14 @@
-import { Request as ConfigurationRequest } from "./Request"
-import { Response as ConfigurationResponse } from "./Response"
+import { Tokenize as ConfigurationTokenize } from "./Tokenize"
 
 export interface Configuration {
 	id: string
-	request: ConfigurationRequest
-	response?: ConfigurationResponse.Json
+	authentication?: string | (string | undefined)[]
+	url: string
+	request: ConfigurationTokenize.Json | "detokenize"
+	response?: ConfigurationTokenize.Json | "detokenize"
 }
 
 export namespace Configuration {
-	export type Request = ConfigurationRequest
-	export type Response = ConfigurationResponse
-	export namespace Response {
-		export type Json = ConfigurationResponse.Json
-		export namespace Json {
-			export const extract = ConfigurationResponse.Json.extract
-			export const process = ConfigurationResponse.Json.process
-		}
-	}
+	export type Tokenize = ConfigurationTokenize
+	export const Tokenize = ConfigurationTokenize
 }

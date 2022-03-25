@@ -1,55 +1,11 @@
 import { Card } from "../../../../Card"
 import { Selector } from "../../../Selector"
-
-interface CardBase {
-	pan: Selector
-	csc: Selector
-}
-namespace CardBase {
-	export function is(value: CardBase | any): value is CardBase {
-		return typeof value == "object" && value.pan && Selector.is(value.pan) && value.csc && Selector.is(value.csc)
-	}
-}
-
-interface CardMonthYear extends CardBase {
-	month: Selector
-	year: Selector
-}
-namespace CardMonthYear {
-	export function is(value: CardMonthYear | any): value is CardMonthYear {
-		return (
-			typeof value == "object" &&
-			value.pan &&
-			Selector.is(value.pan) &&
-			value.csc &&
-			Selector.is(value.csc) &&
-			value.month &&
-			Selector.is(value.month) &&
-			value.year &&
-			Selector.is(value.year)
-		)
-	}
-}
-
-interface CardExpires extends CardBase {
-	expires: Selector
-}
-namespace CardExpires {
-	export function is(value: CardExpires | any): value is CardExpires {
-		return (
-			typeof value == "object" &&
-			value.pan &&
-			Selector.is(value.pan) &&
-			value.csc &&
-			Selector.is(value.csc) &&
-			value.expires &&
-			Selector.is(value.expires)
-		)
-	}
-}
+import { Card as CardType } from "./Card"
+import { Expires as CardExpires } from "./Card/Expires"
+import { MonthYear as CardMonthYear } from "./Card/MonthYear"
 
 export interface Json {
-	card: CardBase | CardMonthYear | CardExpires
+	card: CardType
 	set: (
 		| {
 				find: Selector

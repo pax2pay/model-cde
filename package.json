@@ -35,8 +35,8 @@
 		"testPathIgnorePatterns": [
 			"node_modules/",
 			"dist/",
-			"Proxy/Configuration/Response/Json/test/configurations.ts",
-			"Proxy/Configuration/Response/Json/test/dataset.ts"
+			"Proxy/Configuration/Tokenize/Json/test/configurations.ts",
+			"Proxy/Configuration/Tokenize/Json/test/dataset.ts"
 		],
 		"collectCoverageFrom": [
 			"**/*.{ts,tsx,js,jsx}",
