@@ -1,8 +1,6 @@
 import { Card } from "../../../../Card"
 import { Selector } from "../../../Selector"
 import { Card as CardType } from "./Card"
-import { Expires as CardExpires } from "./Card/Expires"
-import { MonthYear as CardMonthYear } from "./Card/MonthYear"
 
 export interface Json {
 	card: CardType
@@ -51,10 +49,10 @@ export namespace Json {
 		let month: Card.Expires.Month | undefined | 0
 		let year: Card.Expires.Year | undefined | 0
 
-		if (CardMonthYear.is(configuration.card)) {
+		if (CardType.MonthYear.is(configuration.card)) {
 			month = Card.Expires.Month.parse(Selector.get(body, configuration.card.month))
 			year = Card.Expires.Year.parse(Selector.get(body, configuration.card.year))
-		} else if (CardExpires.is(configuration.card)) {
+		} else if (CardType.Expires.is(configuration.card)) {
 			const monthYear = Card.Expires.parse(Selector.get(body, configuration.card.expires))
 			month = monthYear ? monthYear[0] : undefined
 			year = monthYear ? monthYear[1] : undefined
