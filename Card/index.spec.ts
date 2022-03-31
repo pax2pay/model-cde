@@ -120,6 +120,10 @@ describe("@pax2pay/model.Card", () => {
 		expect(model.Card.Token.is(token)).toBeTruthy()
 		token = "4567897890/16/0221/220115/hgUVP-7IwsW963dqwG0sop71sE4F5rCMJ85DJYnwWeGVYdXp/EfyBTD89WFZOfGGq4UGg-w"
 		expect(model.Card.Token.is(token)).toBeTruthy()
+		token = "4111111111/10/0212/220901/6_jZdzSHypjr2qMsHT8WNI_Hziz3wp2bl_ZRQr14/OTKZcllvfoOsWFw3UFu4XA"
+		expect(model.Card.Token.is(token)).toBeTruthy()
+		token = "4111111111/10/0212/220901/6_jZdzSHypjr2qMsHT8WNI_Hziz3wp2bl_ZRQr14/OTKZcllvfoOsWFw3UFu4XA/year"
+		expect(model.Card.Token.is(token)).toBeTruthy()
 	})
 
 	it("Token.is expect false", () => {
