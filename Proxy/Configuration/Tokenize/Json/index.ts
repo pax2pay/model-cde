@@ -22,13 +22,19 @@ export namespace Json {
 			Selector.is(value.card.pan) &&
 			value.card.csc &&
 			Selector.is(value.card.csc) &&
-			((value.card.month && Selector.is(value.card.month) && value.card.year && Selector.is(value.card.year)) ||
-			value.card.expires
-				? Selector.is(value.card.expires)
-				: value.card.expires == undefined) &&
+			((value.card.month &&
+				Selector.is(value.card.month) &&
+				value.card.year &&
+				Selector.is(value.card.year) &&
+				value.card.expires == undefined) ||
+				(value.card.month == undefined &&
+					value.card.year == undefined &&
+					value.card.expires &&
+					Selector.is(value.card.expires)) ||
+				(value.card.month == undefined && value.card.year == undefined && value.card.expires == undefined)) &&
 			value.set &&
 			Array.isArray(value.set) &&
-			value.set.array.every((element: string | Record<string, any>) => {
+			value.set.every((element: string | Record<string, any>) => {
 				return (
 					typeof element == "string" ||
 					(typeof element == "object" &&
