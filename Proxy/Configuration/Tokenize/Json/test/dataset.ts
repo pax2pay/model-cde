@@ -66,3 +66,168 @@ export const dataset = {
 		cvv2: "987",
 	},
 }
+
+export const jsons = [
+	{
+		card: {
+			pan: "pan",
+			csc: "csc",
+			month: "expires[0]",
+			year: "expires[1]",
+		},
+		set: [
+			{
+				find: "pan",
+				value: "$(masked)",
+			},
+			"csc",
+			{
+				find: "token",
+				value: "$(token)",
+			},
+		],
+	},
+	{
+		card: {
+			pan: "pan",
+			csc: "csc",
+			month: "expires[0]",
+			year: "expires[1]",
+		},
+		set: [
+			{
+				find: "pan",
+				value: "$(masked)",
+			},
+			"csc",
+			{
+				find: "token",
+				value: "$(token)",
+			},
+		],
+	},
+	{
+		card: {
+			pan: "card.cardNumber",
+			csc: "card.cvv",
+			month: "card.expireMonth",
+			year: "card.expireYear",
+		},
+		set: [
+			{
+				find: "card.cardNumber",
+				value: "$(masked)",
+			},
+			{ find: "card.cvv", value: "***" },
+			{
+				find: "token",
+				value: "$(token)",
+			},
+		],
+	},
+	{
+		card: {
+			pan: "pan",
+			csc: "csc",
+			month: "expires[0]",
+			year: "expires[1]",
+		},
+		set: [
+			{
+				find: "masked",
+				value: "$(masked)",
+			},
+			"csc",
+			"pan",
+			{
+				find: "token",
+				value: "$(token)",
+			},
+		],
+	},
+	{
+		card: {
+			pan: "body.cardNumber",
+			csc: "body.cvv",
+			month: "body.expiryDateMonth",
+			year: "body.expiryDateYear",
+		},
+		set: [
+			{
+				find: "cardNumber",
+				value: "$(masked)",
+			},
+			"cvv",
+			{
+				find: "token",
+				value: "$(token)",
+			},
+		],
+	},
+	{
+		card: {
+			pan: "pan",
+			csc: "cvv2",
+		},
+		set: [
+			{
+				find: "pan",
+				value: "$(masked)",
+			},
+			"cvv2",
+			{
+				find: "token",
+				value: "$(token)",
+			},
+			{
+				find: "encrypted",
+				value: "$(encrypted)",
+			},
+		],
+	},
+	{
+		card: {
+			pan: "pan",
+			csc: "cvv2",
+		},
+		set: [
+			{
+				find: "pan",
+				value: "$(token)",
+			},
+			{
+				find: "cvv2",
+				value: "***",
+			},
+		],
+	},
+	{
+		card: {
+			pan: "pan",
+			csc: "cvv2",
+		},
+		set: [
+			{
+				find: "pan",
+				value: "$(token)/pan",
+			},
+			{
+				find: "cvv2",
+				value: "$(token)/csc",
+			},
+		],
+	},
+	{
+		card: {
+			pan: "card.pan",
+			csc: "card.csc",
+		},
+		set: [
+			{
+				find: "card.pan",
+				value: "$(masked)",
+			},
+			"card.csc",
+		],
+	},
+]

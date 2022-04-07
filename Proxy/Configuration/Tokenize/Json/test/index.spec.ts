@@ -1,8 +1,8 @@
 import * as model from "../../../../../index"
 import { configurations } from "./configurations"
-import { dataset } from "./dataset"
+import { dataset, jsons } from "./dataset"
 
-describe("@pax2pay/model.Proxy.Configuration.Response", () => {
+describe("@pax2pay/model.Proxy.Configuration.Tokenize.Json", () => {
 	it("set ", () => {
 		const card = model.Proxy.Configuration.Tokenize.Json.extract(configurations.monthYear, dataset.cardModelFormat)
 		expect(card).toEqual(dataset.cardModelFormat.card)
@@ -162,5 +162,32 @@ describe("@pax2pay/model.Proxy.Configuration.Response", () => {
 			csc: "123",
 			expires: [0, 0],
 		})
+	})
+
+	it("is", async () => {
+		expect(jsons.map(item => model.Proxy.Configuration.Tokenize.Json.is(item)).every(item => item == true)).toBeTruthy()
+		expect(
+			model.Proxy.Configuration.Tokenize.Json.is({
+				card: {
+					pan: "pan",
+					csc: "cvv2",
+				},
+				set: [
+					{
+						find: "pan",
+						value: "$(masked)",
+					},
+					"cvv2",
+					{
+						find: "token",
+						value: "$(token)",
+					},
+					{
+						find: "encrypted",
+						value: "$(encrypted)",
+					},
+				],
+			})
+		).toBeTruthy()
 	})
 })
