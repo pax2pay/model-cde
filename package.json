@@ -1,6 +1,6 @@
 {
 	"name": "@pax2pay/model-cde",
-	"version": "0.0.43",
+	"version": "0.0.44",
 	"description": "Model for the Pax2Pay Card Data API.",
 	"author": "Pax2Pay Ltd.",
 	"license": "MIT",
