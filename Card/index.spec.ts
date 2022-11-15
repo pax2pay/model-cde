@@ -9,14 +9,6 @@ describe("@pax2pay/model.Card", () => {
 				expires: [2, 22],
 			})
 		).toEqual(true)
-		expect(
-			model.Card.is({
-				// too short
-				pan: "411111111111111",
-				csc: "987",
-				expires: [2, 22],
-			})
-		).toEqual(false)
 	})
 
 	it("is, expiry [0,0]", () => {
