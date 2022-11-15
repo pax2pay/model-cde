@@ -9,6 +9,14 @@ describe("@pax2pay/model.Card", () => {
 				expires: [2, 22],
 			})
 		).toEqual(true)
+		expect(
+			model.Card.is({
+				// too short
+				pan: "411111111111111",
+				csc: "987",
+				expires: [2, 22],
+			})
+		).toEqual(false)
 	})
 
 	it("is, expiry [0,0]", () => {
@@ -212,7 +220,6 @@ describe("@pax2pay/model.Card", () => {
 		token = "411111111111/10/0212/220901/6_jZdzSHypjr2qMsHT8WNI_Hziz3wp2bl_ZRQr14/OTKZcllvfoOsWFw3UFu4XA/year"
 		expect(model.Card.Token.is(token)).toBeTruthy()
 	})
-
 	it("Token.is expect false", () => {
 		let token =
 			"4567897890/16123/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"

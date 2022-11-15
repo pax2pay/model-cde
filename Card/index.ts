@@ -28,7 +28,7 @@ export namespace Card {
 	export function is(value: any | Card): value is Card {
 		return (
 			typeof value == "object" &&
-			typeof value.pan == "string" &&
+			typeof value.pan == "string" && value.pan.length == 16 && 
 			(CardExpires.is(value.expires) ||
 				(Array.isArray(value.expires) && value.expires[0] == 0 && value.expires[1] == 0)) &&
 			typeof value.csc == "string" &&
