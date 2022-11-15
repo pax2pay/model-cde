@@ -10,6 +10,21 @@ export interface Card {
 	lapses?: isoly.Date
 }
 export namespace Card {
+	// hardcoded set of eight digit bins 
+	// 11111111 is a fake test one
+	const EIGHT_DIGIT_BINS = ["11111111"]
+
+	function findBinLength(pan: string): number {
+		// return from a hardcoded set of eight digit bins, otherwise default 6
+		for (const bin of EIGHT_DIGIT_BINS) {
+			if (pan.startsWith(bin)) {
+				return 8
+			}
+		}
+
+		return 6
+	}
+
 	export function is(value: any | Card): value is Card {
 		return (
 			typeof value == "object" &&
@@ -20,12 +35,14 @@ export namespace Card {
 			(value.lapses == undefined || isoly.Date.is(value.lapses))
 		)
 	}
+
 	export function mask(card: Card): CardMasked {
 		const length = card.pan.length
-		const iin = card.pan.slice(0, 6)
+		const binLength = findBinLength(card.pan)
+		const iin = card.pan.slice(0, binLength)
 		const last4 = card.pan.slice(length - 4, length)
 		const result: CardMasked = {
-			masked: iin + "*".repeat(length - 10) + last4,
+			masked: iin + "*".repeat(length - binLength + 4) + last4,
 			iin,
 			last4,
 			expires: card.expires,
@@ -34,6 +51,8 @@ export namespace Card {
 			result.lapses = card.lapses
 		return result
 	}
+
+
 	export type Expires = CardExpires
 	export namespace Expires {
 		export const is = CardExpires.is
