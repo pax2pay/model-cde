@@ -24,6 +24,10 @@ describe("@pax2pay/model.Card", () => {
 		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		expect(model.Card.Token.is(token)).toEqual(true)
 	})
+	it("Token.is 8 digit bin", () => {
+		const token = "456789117890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
+		expect(model.Card.Token.is(token)).toEqual(true)
+	})
 	it("Token.is w/ part", () => {
 		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
 		expect(model.Card.Token.is(token)).toEqual(true)
