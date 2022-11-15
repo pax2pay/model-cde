@@ -10,7 +10,7 @@ export interface Card {
 	lapses?: isoly.Date
 }
 export namespace Card {
-	// hardcoded set of eight digit bins 
+	// hardcoded set of eight digit bins
 	// 11111111 is a fake test one
 	const EIGHT_DIGIT_BINS = ["11111111"]
 
@@ -51,7 +51,6 @@ export namespace Card {
 			result.lapses = card.lapses
 		return result
 	}
-
 
 	export type Expires = CardExpires
 	export namespace Expires {

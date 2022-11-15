@@ -186,7 +186,8 @@ describe("@pax2pay/model.Card", () => {
 		})
 	})
 	it("Token.unpack w/ part 8 digit bin", () => {
-		const token = "111111117890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
+		const token =
+			"111111117890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
 		expect(model.Card.Token.unpack(token)).toEqual({
 			masked: "11111111****7890",
 			iin: "11111111",
