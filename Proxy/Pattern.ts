@@ -26,7 +26,6 @@ export namespace Pattern {
 	}
 
 	export function set(data: any, pattern: Pattern, value: any): string {
-		let result: string | null
 		let matched
 		if (typeof pattern == "string") {
 			matched = data.matchAll(new RegExp("<" + pattern + ">", "g"))
@@ -43,14 +42,14 @@ export namespace Pattern {
 		for (const match of matched) {
 			if (match.index) {
 				const length = match[0].length
-				const firstIndex = match.index + match[0].length
-				const nextIndex = data.substring(match.index + match[0].length).indexOf("<")
+				const firstIndex = match.index + length
+				const nextIndex = data.substring(match.index + length).indexOf("<")
 
 				data = data.replace(data.slice(firstIndex, firstIndex + nextIndex), value)
 			}
 		}
 
-		result = data
+		const result: string | null = data
 		if (result == null) {
 			throw Error
 		}
