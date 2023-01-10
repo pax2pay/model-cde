@@ -69,6 +69,8 @@ export const dataset = {
 
 export const jsons = [
 	{
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "pan",
 			csc: "csc",
@@ -88,6 +90,8 @@ export const jsons = [
 		],
 	},
 	{
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "pan",
 			csc: "csc",
@@ -107,6 +111,8 @@ export const jsons = [
 		],
 	},
 	{
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "card.cardNumber",
 			csc: "card.cvv",
@@ -126,6 +132,8 @@ export const jsons = [
 		],
 	},
 	{
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "pan",
 			csc: "csc",
@@ -146,6 +154,8 @@ export const jsons = [
 		],
 	},
 	{
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "body.cardNumber",
 			csc: "body.cvv",
@@ -165,6 +175,8 @@ export const jsons = [
 		],
 	},
 	{
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "pan",
 			csc: "cvv2",
@@ -186,6 +198,8 @@ export const jsons = [
 		],
 	},
 	{
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "pan",
 			csc: "cvv2",
@@ -202,6 +216,8 @@ export const jsons = [
 		],
 	},
 	{
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "pan",
 			csc: "cvv2",
@@ -218,6 +234,8 @@ export const jsons = [
 		],
 	},
 	{
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",

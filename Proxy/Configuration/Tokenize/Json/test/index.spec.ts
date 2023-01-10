@@ -168,6 +168,7 @@ describe("@pax2pay/model.Proxy.Configuration.Tokenize.Json", () => {
 		expect(jsons.map(item => model.Proxy.Configuration.Tokenize.Json.is(item)).every(item => item == true)).toBeTruthy()
 		expect(
 			model.Proxy.Configuration.Tokenize.Json.is({
+				type: "json",
 				card: {
 					pan: "pan",
 					csc: "cvv2",

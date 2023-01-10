@@ -49,6 +49,7 @@ namespace CardExpires {
 }
 
 export interface Text {
+	type: "text"
 	card: CardBase | CardMonthYear | CardExpires
 	set: (
 		| {
@@ -63,6 +64,7 @@ export namespace Text {
 	export function is(value: Text | any): value is Text {
 		return (
 			typeof value == "object" &&
+			value.type == "text" &&
 			value.card &&
 			(CardBase.is(value.card) || CardMonthYear.is(value.card) || CardExpires.is(value.card)) &&
 			value.set &&

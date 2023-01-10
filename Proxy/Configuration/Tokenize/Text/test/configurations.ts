@@ -1,5 +1,9 @@
+import { Text } from "./../index"
+
 export const configurations = {
 	expires: {
+		type: "text",
+		url: "asd123",
 		card: {
 			pan: "cardNumber",
 			csc: "csc",
@@ -17,4 +21,4 @@ export const configurations = {
 			},
 		],
 	},
-}
+} as Record<string, Text>

@@ -1,5 +1,8 @@
+import { Json } from "../index"
 export const configurations = {
 	monthYear: {
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",
@@ -19,6 +22,8 @@ export const configurations = {
 		],
 	},
 	expires: {
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",
@@ -37,6 +42,8 @@ export const configurations = {
 		],
 	},
 	noExpires: {
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",
@@ -54,6 +61,8 @@ export const configurations = {
 		],
 	},
 	encrypted: {
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",
@@ -73,6 +82,8 @@ export const configurations = {
 		],
 	},
 	maskedAndEncrypted: {
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "card.pan",
 			csc: "card.csc",
@@ -88,6 +99,8 @@ export const configurations = {
 		],
 	},
 	modulrToken: {
+		type: "json",
+		url: "asd123",
 		card: {
 			pan: "pan",
 			csc: "cvv2",
@@ -103,4 +116,4 @@ export const configurations = {
 			},
 		],
 	},
-}
+} as Record<string, Json>

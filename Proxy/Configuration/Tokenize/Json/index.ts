@@ -3,6 +3,7 @@ import { Selector } from "../../../Selector"
 import { Card as CardType } from "./Card"
 
 export interface Json {
+	type: "json"
 	card: CardType
 	set: (
 		| {
@@ -16,6 +17,7 @@ export namespace Json {
 	export function is(value: Json | any): value is Json {
 		return (
 			typeof value == "object" &&
+			value.type == "json" &&
 			value.card &&
 			typeof value.card == "object" &&
 			value.card.pan &&
