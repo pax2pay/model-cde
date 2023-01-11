@@ -3,7 +3,7 @@ import { Pattern } from "../../.."
 
 interface CardBase {
 	pan: Pattern
-	csc: Pattern
+	csc: Pattern | undefined
 }
 namespace CardBase {
 	export function is(value: CardBase | any): value is CardBase {
@@ -96,7 +96,7 @@ export namespace Text {
 
 		return {
 			pan: Pattern.get(body, configuration.card.pan),
-			csc: Pattern.get(body, configuration.card.csc),
+			csc: configuration.card.csc ? Pattern.get(body, configuration.card.csc) : "000",
 			expires: month && year ? [month, year] : [0, 0],
 		}
 	}
