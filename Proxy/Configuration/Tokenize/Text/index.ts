@@ -1,56 +1,10 @@
 import { Card } from "../../../../Card/index"
 import { Pattern } from "../../.."
-
-interface CardBase {
-	pan: Pattern
-	csc: Pattern | undefined
-}
-namespace CardBase {
-	export function is(value: CardBase | any): value is CardBase {
-		return typeof value == "object" && value.pan && Pattern.is(value.pan) && value.csc && Pattern.is(value.csc)
-	}
-}
-
-interface CardMonthYear extends CardBase {
-	month: Pattern
-	year: Pattern
-}
-namespace CardMonthYear {
-	export function is(value: CardMonthYear | any): value is CardMonthYear {
-		return (
-			typeof value == "object" &&
-			value.pan &&
-			Pattern.is(value.pan) &&
-			value.csc &&
-			Pattern.is(value.csc) &&
-			value.month &&
-			Pattern.is(value.month) &&
-			value.year &&
-			Pattern.is(value.year)
-		)
-	}
-}
-
-interface CardExpires extends CardBase {
-	expires: Pattern
-}
-namespace CardExpires {
-	export function is(value: CardExpires | any): value is CardExpires {
-		return (
-			typeof value == "object" &&
-			value.pan &&
-			Pattern.is(value.pan) &&
-			value.csc &&
-			Pattern.is(value.csc) &&
-			value.expires &&
-			Pattern.is(value.expires)
-		)
-	}
-}
+import { Card as CardType } from "./Card"
 
 export interface Text {
 	type: "text"
-	card: CardBase | CardMonthYear | CardExpires
+	card: CardType
 	set: (
 		| {
 				find: Pattern
@@ -66,7 +20,7 @@ export namespace Text {
 			typeof value == "object" &&
 			value.type == "text" &&
 			value.card &&
-			(CardBase.is(value.card) || CardMonthYear.is(value.card) || CardExpires.is(value.card)) &&
+			(CardType.Base.is(value.card) || CardType.MonthYear.is(value.card) || CardType.Expires.is(value.card)) &&
 			value.set &&
 			Array.isArray(value.set) &&
 			value.set.every((element: string | Record<string, any>) => {
@@ -85,10 +39,10 @@ export namespace Text {
 		let month: Card.Expires.Month | undefined | 0
 		let year: Card.Expires.Year | undefined | 0
 
-		if (CardMonthYear.is(configuration.card)) {
+		if (CardType.MonthYear.is(configuration.card)) {
 			month = Card.Expires.Month.parse(Pattern.get(body, configuration.card.month))
 			year = Card.Expires.Year.parse(Pattern.get(body, configuration.card.year))
-		} else if (CardExpires.is(configuration.card)) {
+		} else if (CardType.Expires.is(configuration.card)) {
 			const monthYear = Card.Expires.parse(Pattern.get(body, configuration.card.expires))
 			month = monthYear ? monthYear[0] : undefined
 			year = monthYear ? monthYear[1] : undefined
