@@ -3,8 +3,8 @@ import { Tokenize as ConfigurationTokenize } from "./Tokenize"
 export interface Configuration {
 	authentication?: string | (string | undefined)[]
 	url: string
-	request?: ConfigurationTokenize.Json | "detokenize"
-	response?: ConfigurationTokenize.Json | "detokenize"
+	request?: ConfigurationTokenize.Json | ConfigurationTokenize.Text | "detokenize"
+	response?: ConfigurationTokenize.Json | ConfigurationTokenize.Text | "detokenize"
 }
 
 export namespace Configuration {
