@@ -11,8 +11,7 @@ export interface Card {
 }
 export namespace Card {
 	// hardcoded set of eight digit bins
-	// 11111111 is a fake test one
-	const EIGHT_DIGIT_BINS = ["11111111"]
+	const EIGHT_DIGIT_BINS = ["45561800", "45561900", "49299300", "49299400"]
 
 	function findBinLength(pan: string): number {
 		// return from a hardcoded set of eight digit bins, otherwise default 6
