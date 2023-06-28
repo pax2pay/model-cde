@@ -64,7 +64,7 @@
 		"prettierx": "github:utily/eslint-plugin-prettierx#utily-20230626",
 		"rimraf": "^3.0.2",
 		"ts-jest": "^29.1.0",
-		"typescript": "4.5.4",
+		"typescript": "^4.5.4",
 		"watch": "^0.13.0"
 	},
 	"dependencies": {
