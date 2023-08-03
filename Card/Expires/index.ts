@@ -12,9 +12,14 @@ export namespace Expires {
 		return expires[0] + "/" + expires[1]
 	}
 	export function parse(expires: string): Expires | undefined {
-		const numbers = expires.replaceAll(/[\.\/-]/g, "")
-		const monthLength = numbers.length % 2 == 1 ? 1: 2
-		const result = [ExpiresMonth.parse(numbers.substring(0, monthLength)), ExpiresYear.parse(numbers.substring(monthLength))]
+		let result;
+		if ((/^\d{4}-\d{2}-\d{2}.*/).test(expires) && new globalThis.Date(expires).toString() != "Invalid Date") {
+			result = [ExpiresMonth.parse(expires.substring(5, 7)), ExpiresYear.parse(expires.substring(2, 4))]
+		} else {
+			const numbers = expires.replaceAll(/[\.\/-]/g, "")
+			const monthLength = numbers.length % 2 == 1 ? 1: 2
+			result = [ExpiresMonth.parse(numbers.substring(0, monthLength)), ExpiresYear.parse(numbers.substring(monthLength))]
+		}
 		return Expires.is(result) ? result : undefined
 	}
 	export type Month = ExpiresMonth
