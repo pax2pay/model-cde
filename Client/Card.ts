@@ -7,11 +7,13 @@ export class Card extends rest.Collection<gracely.Error> {
 	async detokenize(token: modelCard.Token): Promise<modelCard | string | gracely.Error> {
 		return await this.client.get<modelCard | string>(`card/${token}`)
 	}
-	async getImage(token: modelCard.Token): Promise<string | gracely.Error> {
-		return await this.client.get<string>(`card/${token}`, { accept: ["image/svg+xml"] })
+	async getImage(token: modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
+		const queryString = cardHolderName ? `?ch=${cardHolderName}` : ""
+		return await this.client.get<string>(`card/${token}${queryString}`, { accept: ["image/svg+xml"] })
 	}
-	async getPdf(token: modelCard.Token): Promise<string | gracely.Error> {
-		return await this.client.get<string>(`card/${token}`, { accept: ["application/pdf"] })
+	async getPdf(token: modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
+		const queryString = cardHolderName ? `?ch=${cardHolderName}` : ""
+		return await this.client.get<string>(`card/${token}${queryString}`, { accept: ["application/pdf"] })
 	}
 	async tokenize(card: modelCard): Promise<modelCard.Token | gracely.Error> {
 		return await this.client.post<modelCard.Token>("card", card)
