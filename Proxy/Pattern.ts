@@ -44,8 +44,10 @@ export namespace Pattern {
 				const length = match[0].length
 				const firstIndex = match.index + length
 				const nextIndex = data.substring(match.index + length).indexOf("<")
+				const before = data.substring(0, firstIndex)
+				const after = data.substring(firstIndex + nextIndex)
 
-				data = data.replace(data.slice(firstIndex, firstIndex + nextIndex), value)
+				data = before + value + after
 			}
 		}
 
