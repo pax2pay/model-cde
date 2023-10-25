@@ -22,4 +22,60 @@ describe("@pax2pay/model.Proxy.Pattern", () => {
 		newExample = model.Proxy.Pattern.set(newExample, "csc", "123")
 		expect(model.Proxy.Pattern.get(newExample, "csc")).toEqual("123")
 	})
+
+	it("shouldnt replace itself badly when theres a substring", () => {
+		// the DeploymentID contains a substring of the CVV
+		const rs = `
+		  <soap:Body>
+		    <GetCardResponse
+		      xmlns="http://cpapi.conferma.com/">
+		      <GetCardResult CardPoolName="Online Syndicator Account" DeploymentID="113981428" Type="General">
+		        <General>
+		          <Name>coop</Name>
+		          <ConsumerReference>adfgdafg</ConsumerReference>
+		          <Amount Currency="GBP" Value="382"/>
+		          <PaymentRange EndDate="2023-10-31T00:00:00Z" StartDate="2023-10-24T00:00:00Z"/>
+		        </General>
+		        <Card>
+		          <Name>Coop Travel</Name>
+		          <Number>5555444433332222</Number>
+		          <Type>CA</Type>
+		          <ExpiryDate Month="4" Year="2025"/>
+		          <CVV>139</CVV>
+		          <Provider ID="1" Name="Barclaycard Commercial"/>
+		        </Card>
+		        <Identifiers/>
+		      </GetCardResult>
+		    </GetCardResponse>
+		  </soap:Body>
+		</soap:Envelope>
+		`
+		const expected = `
+		  <soap:Body>
+		    <GetCardResponse
+		      xmlns="http://cpapi.conferma.com/">
+		      <GetCardResult CardPoolName="Online Syndicator Account" DeploymentID="113981428" Type="General">
+		        <General>
+		          <Name>coop</Name>
+		          <ConsumerReference>adfgdafg</ConsumerReference>
+		          <Amount Currency="GBP" Value="382"/>
+		          <PaymentRange EndDate="2023-10-31T00:00:00Z" StartDate="2023-10-24T00:00:00Z"/>
+		        </General>
+		        <Card>
+		          <Name>Coop Travel</Name>
+		          <Number>5555444433332222</Number>
+		          <Type>CA</Type>
+		          <ExpiryDate Month="4" Year="2025"/>
+		          <CVV>token/stuff</CVV>
+		          <Provider ID="1" Name="Barclaycard Commercial"/>
+		        </Card>
+		        <Identifiers/>
+		      </GetCardResult>
+		    </GetCardResponse>
+		  </soap:Body>
+		</soap:Envelope>
+		`
+		const replaced = model.Proxy.Pattern.set(rs, "CVV", "token/stuff")
+		expect(replaced).toEqual(expected)
+	})
 })
