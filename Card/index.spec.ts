@@ -212,6 +212,9 @@ describe("@pax2pay/model.Card", () => {
 		expect(model.Card.Token.is(token)).toBeTruthy()
 		token = "411111111111/10/0212/220901/6_jZdzSHypjr2qMsHT8WNI_Hziz3wp2bl_ZRQr14/OTKZcllvfoOsWFw3UFu4XA/year"
 		expect(model.Card.Token.is(token)).toBeTruthy()
+		//RSA keyname
+		token = "411111111111/10/0212/RSAasdf/6_jZdzSHypjr2qMsHT8WNI_Hziz3wp2bl_ZRQr14/OTKZcllvfoOsWFw3UFu4XA"
+		expect(model.Card.Token.is(token)).toBeTruthy()
 	})
 	it("Token.is expect false", () => {
 		let token =
@@ -221,6 +224,12 @@ describe("@pax2pay/model.Card", () => {
 		expect(model.Card.Token.is(token)).toBeFalsy()
 		token =
 			"456789789012341254/16/0221/211224/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
+		expect(model.Card.Token.is(token)).toBeFalsy()
+		//keyname too long
+		token = "411111111111/10/0212/RSAasdfg/6_jZdzSHypjr2qMsHT8WNI_Hziz3wp2bl_ZRQr14/OTKZcllvfoOsWFw3UFu4XA"
+		expect(model.Card.Token.is(token)).toBeFalsy()
+		//keyname contains invalid characters
+		token = "411111111111/10/0212/RSA+123/6_jZdzSHypjr2qMsHT8WNI_Hziz3wp2bl_ZRQr14/OTKZcllvfoOsWFw3UFu4XA"
 		expect(model.Card.Token.is(token)).toBeFalsy()
 	})
 })
