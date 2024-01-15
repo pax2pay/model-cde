@@ -73,8 +73,10 @@ export namespace Card {
 	}
 	export type Token = string
 	export namespace Token {
-		export const pattern =
-			/^(\d{10,12})\/(\d{2})\/([0-1]\d{3})\/((RSA[A-Za-z]{4})|([0-2]\d[0-6][02468])|(((([02468][048])|([13579][2,6]))(02((0[1-9])|([1-2]\d))))|(\d{2}((((0[13578])|(1[02]))((0[1-9])|([1-2]\d)|(3[01])))|(02((0[1-9])|(1\d)|(2[0-8])))|(((0[469])|(11))((0[1-9])|([1-2]\d)|(30)))))))\/[a-z,A-Z,0-9\-_]+\/[a-z,A-Z,0-9\-_]+(\/(pan|csc|expires|month|year|masked))?$/
+		const patternString =
+			"(\\d{10,12})\\/(\\d{2})\\/([0-1]\\d{3})\\/((RSA[A-Za-z]{4})|([0-2]\\d[0-6][02468])|(((([02468][048])|([13579][2,6]))(02((0[1-9])|([1-2]\\d))))|(\\d{2}((((0[13578])|(1[02]))((0[1-9])|([1-2]\\d)|(3[01])))|(02((0[1-9])|(1\\d)|(2[0-8])))|(((0[469])|(11))((0[1-9])|([1-2]\\d)|(30)))))))\\/[a-zA-Z0-9\\-_]+\\/[a-zA-Z0-9\\-_]+(\\/(pan|csc|expires|month|year|masked))?"
+		export const pattern = new RegExp("^" + patternString + "$")
+		export const globalPattern = new RegExp(patternString, "g")
 
 		export function is(value: any | Token): value is Token {
 			return (

@@ -232,4 +232,36 @@ describe("@pax2pay/model.Card", () => {
 		token = "411111111111/10/0212/RSA+123/6_jZdzSHypjr2qMsHT8WNI_Hziz3wp2bl_ZRQr14/OTKZcllvfoOsWFw3UFu4XA"
 		expect(model.Card.Token.is(token)).toBeFalsy()
 	})
+	it("Token.globalPattern.match", async () => {
+		const token = "4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
+
+		let textContainingToken = token
+		expect(model.Card.Token.globalPattern.test(textContainingToken)).toBeTruthy()
+		let match = textContainingToken.match(model.Card.Token.globalPattern)
+		expect(match).toHaveLength(1)
+		expect(match?.[0]).toEqual(
+			"4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
+		)
+
+		textContainingToken = "asd " + textContainingToken + "qwe"
+		match = textContainingToken.match(model.Card.Token.globalPattern)
+		expect(match).toHaveLength(1)
+		expect(match?.[0]).toEqual(
+			"4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
+		)
+
+		textContainingToken = textContainingToken + "\n asdqweqweqweqweasd \n " + token
+		match = textContainingToken.match(model.Card.Token.globalPattern)
+		expect(match).toHaveLength(2)
+		expect(match?.[0]).toEqual(
+			"4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
+		)
+		expect(match?.[1]).toEqual(
+			"4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ/year"
+		)
+
+		const stringWithoutToken = "sdiufhsdifhdsif"
+		match = stringWithoutToken.match(model.Card.Token.globalPattern)
+		expect(match).toBeNull()
+	})
 })
