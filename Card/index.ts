@@ -1,7 +1,9 @@
 import * as isoly from "isoly"
+import { Detokenizer as CardDetokenizer } from "./Detokenizer/index"
 import { Expires as CardExpires } from "./Expires"
 import { Masked as CardMasked } from "./Masked"
 import { Part as CardPart } from "./Part"
+import { Tokenizer as CardTokenizer } from "./Tokenizer/index"
 
 export interface Card {
 	pan: string
@@ -92,6 +94,11 @@ export namespace Card {
 				// 4567897890/16/0221/220101/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ
 			)
 		}
+
+		export function isRsa(value: string) {
+			return is(value) && unpack(value).key.startsWith("RSA")
+		}
+
 		export type Unpacked = CardMasked & {
 			key: string
 			encrypted: string
@@ -170,4 +177,7 @@ export namespace Card {
 		export const values = CardPart.values
 		export const is = CardPart.is
 	}
+
+	export const Tokenizer = CardTokenizer
+	export const Detokenizer = CardDetokenizer
 }

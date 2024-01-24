@@ -1,3 +1,5 @@
+import { cryptly } from "cryptly"
+import * as gracely from "gracely"
 import * as model from "../index"
 
 describe("@pax2pay/model.Card", () => {
@@ -263,5 +265,30 @@ describe("@pax2pay/model.Card", () => {
 		const stringWithoutToken = "sdiufhsdifhdsif"
 		match = stringWithoutToken.match(model.Card.Token.globalPattern)
 		expect(match).toBeNull()
+	})
+})
+
+describe("@pax2pay/model.Card.Tokenizer + Detokenizer", () => {
+	it("Rsa tokenize + detokenize", async () => {
+		const encrypter = cryptly.Encrypter.Rsa.generate(2048)
+		const tokenizer = new model.Card.Tokenizer.Rsa(encrypter)
+		const token = await tokenizer.tokenize({
+			pan: "4567890123457890",
+			csc: "987",
+			expires: [2, 21],
+		})
+		if (gracely.Error.is(token))
+			fail(token.error)
+		else {
+			expect(model.Card.Token.is(token)).toEqual(true)
+			const detokenizer = new model.Card.Detokenizer.Rsa(encrypter)
+			const card = token && (await detokenizer.detokenize(token))
+			expect(card).toMatchObject({
+				pan: "4567890123457890",
+				masked: "456789******7890",
+				csc: "987",
+				expires: [2, 21],
+			})
+		}
 	})
 })
