@@ -1,6 +1,6 @@
+import { cryptly } from "cryptly"
 import * as isoly from "isoly"
 import { Detokenizer as CardDetokenizer } from "./Detokenizer/index"
-import { Rsa } from "./Detokenizer/Rsa"
 import { Expires as CardExpires } from "./Expires"
 import { Masked as CardMasked } from "./Masked"
 import { Part as CardPart } from "./Part"
@@ -96,7 +96,7 @@ export namespace Card {
 			)
 		}
 
-		export function isRsa(value: any | Rsa): value is Rsa {
+		export function isRsa(value: any | cryptly.Encrypter.Rsa): value is cryptly.Encrypter.Rsa {
 			return is(value) && unpack(value).key.startsWith("RSA")
 		}
 
