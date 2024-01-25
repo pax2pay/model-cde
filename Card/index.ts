@@ -1,5 +1,6 @@
 import * as isoly from "isoly"
 import { Detokenizer as CardDetokenizer } from "./Detokenizer/index"
+import { Rsa } from "./Detokenizer/Rsa"
 import { Expires as CardExpires } from "./Expires"
 import { Masked as CardMasked } from "./Masked"
 import { Part as CardPart } from "./Part"
@@ -95,7 +96,7 @@ export namespace Card {
 			)
 		}
 
-		export function isRsa(value: string) {
+		export function isRsa(value: any | Rsa): value is Rsa {
 			return is(value) && unpack(value).key.startsWith("RSA")
 		}
 
