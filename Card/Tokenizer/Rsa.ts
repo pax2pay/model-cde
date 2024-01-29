@@ -10,7 +10,7 @@ export class Rsa extends Base {
 		return "0"
 	}
 
-	async getKeyName(): Promise<string> {
+	async getKeyName(encrypted?: cryptly.Encrypter.Rsa.Encrypted): Promise<string> {
 		let result: string
 		const publicKey = await this.encrypter.export("public")
 
