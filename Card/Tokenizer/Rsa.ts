@@ -6,11 +6,11 @@ export class Rsa extends Base {
 		super(encrypter)
 	}
 
-	async getSaltValue(encrypted: cryptly.Encrypter.Rsa.Encrypted): Promise<string> {
+	async getSaltValue(): Promise<string> {
 		return "0"
 	}
 
-	async getKeyName(encrypted?: cryptly.Encrypter.Rsa.Encrypted): Promise<string> {
+	async getKeyName(): Promise<string> {
 		let result: string
 		const publicKey = await this.encrypter.export("public")
 

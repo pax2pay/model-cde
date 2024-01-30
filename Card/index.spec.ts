@@ -279,8 +279,11 @@ describe("@pax2pay/model.Card.Tokenizer + Detokenizer", () => {
 		})
 		if (gracely.Error.is(token))
 			fail(token.error)
+		else if (!token)
+			fail()
 		else {
 			expect(model.Card.Token.is(token)).toEqual(true)
+			expect(model.Card.Token.unpack(token).salt).toEqual("0")
 			const detokenizer = new model.Card.Detokenizer.Rsa(encrypter)
 			const card = token && (await detokenizer.detokenize(token))
 			expect(card).toMatchObject({
