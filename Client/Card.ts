@@ -7,20 +7,20 @@ export class Card extends http.Client<gracely.Error> {
 		return await this.get<modelCard | string>(`card/${token}`)
 	}
 	async getImage(token: modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
-		const queryString = cardHolderName ? `?ch=${cardHolderName}` : ""
-		return await this.get<string>(`card/${token}${queryString}`, { accept: ["image/svg+xml"] })
+		return await this.get<string>(`card/${token}${this.getQueryString(cardHolderName)}`, { accept: ["image/svg+xml"] })
 	}
 	async getPdf(token: modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
-		const queryString = cardHolderName ? `?ch=${cardHolderName}` : ""
-		return await this.get<string>(`card/${token}${queryString}`, { accept: ["application/pdf"] })
+		return await this.get<string>(`card/${token}${this.getQueryString(cardHolderName)}`, {
+			accept: ["application/pdf"],
+		})
 	}
 	async getImageWithRawData(card: modelCard, cardHolderName?: string): Promise<string | gracely.Error> {
-		const queryString = cardHolderName ? `?ch=${cardHolderName}` : ""
-		return await this.post<string>(`card/raw${queryString}`, card, { accept: ["image/svg+xml"] })
+		return await this.post<string>(`card/raw${this.getQueryString(cardHolderName)}`, card, {
+			accept: ["image/svg+xml"],
+		})
 	}
 	async getPdfWithRawData(card: modelCard, cardHolderName?: string): Promise<ArrayBuffer | gracely.Error> {
-		const queryString = cardHolderName ? `?ch=${cardHolderName}` : ""
-		const response = await this.post<ArrayBuffer>(`card/raw${queryString}`, card, {
+		const response = await this.post<ArrayBuffer>(`card/raw${this.getQueryString(cardHolderName)}`, card, {
 			accept: ["application/pdf"],
 		})
 		return response
@@ -33,5 +33,8 @@ export class Card extends http.Client<gracely.Error> {
 	}
 	static create(connection: string): { card: Card } {
 		return { card: new Card(connection) }
+	}
+	getQueryString(cardHolderName?: string) {
+		return cardHolderName ? `?ch=${cardHolderName}` : ""
 	}
 }
