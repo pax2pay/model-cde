@@ -178,6 +178,16 @@ export namespace Card {
 		export const is = CardPart.is
 	}
 
-	export const Tokenizer = CardTokenizer
-	export const Detokenizer = CardDetokenizer
+	export namespace Tokenizer {
+		export type Base = CardTokenizer.Base
+		export const Base = CardTokenizer.Base
+		export type Rsa = CardTokenizer.Rsa
+		export const Rsa = CardTokenizer.Rsa
+	}
+	export namespace Detokenizer {
+		export type Base = CardDetokenizer.Base
+		export const Base = CardDetokenizer.Base
+		export type Rsa = CardDetokenizer.Rsa
+		export const Rsa = CardDetokenizer.Rsa
+	}
 }

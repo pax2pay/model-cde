@@ -56,15 +56,15 @@ export abstract class Base {
 	): Promise<(Card & Card.Masked) | Card.Masked | string | Card.Expires | number | undefined> {
 		const unpacked = argument.length == 0 ? Card.Token.unpack(token) : Card.Token.unpack([token, ...argument])
 		let result: (Card & Card.Masked) | Card.Masked | string | Card.Expires | number | undefined
-		result = await this.extractFromUnpackedToken(unpacked)
-		if (result)
+		const fromUnpacked = await this.extractFromUnpackedToken(unpacked)
+		if (fromUnpacked)
 			result = !unpacked.part
-				? result
+				? fromUnpacked
 				: unpacked.part == "month"
-				? result.expires[0]
+				? fromUnpacked.expires[0]
 				: unpacked.part == "year"
-				? result.expires[1]
-				: (result as Partial<Card> & Card.Masked)[unpacked.part]
+				? fromUnpacked.expires[1]
+				: (fromUnpacked as Partial<Card> & Card.Masked)[unpacked.part]
 		return result
 	}
 
