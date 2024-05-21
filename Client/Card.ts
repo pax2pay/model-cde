@@ -25,16 +25,16 @@ export class Card extends http.Client<gracely.Error> {
 		})
 		return response
 	}
-	async tokenize(card: modelCard): Promise<modelCard.Token | gracely.Error> {
-		return await this.post<modelCard.Token>("card", card)
+	async tokenize(card: modelCard, key?: string): Promise<modelCard.Token | gracely.Error> {
+		return await this.post<modelCard.Token>("card", card, key ? { cdePublicKey: key } : undefined)
 	}
 	async modify(token: modelCard.Token, card?: Partial<modelCard>): Promise<string | gracely.Error> {
 		return await this.patch<string>(`card/${token}`, card ?? {})
 	}
-	static create(connection: string): { card: Card } {
-		return { card: new Card(connection) }
-	}
 	getQueryString(cardHolderName?: string) {
 		return cardHolderName ? `?ch=${cardHolderName}` : ""
+	}
+	static create(connection: string): { card: Card } {
+		return { card: new Card(connection) }
 	}
 }
