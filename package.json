@@ -72,6 +72,7 @@
 		"cloudly-rest": "^0.0.10",
 		"cryptly": "^4.0.2",
 		"gracely": "^0.0.44",
+		"isly": "^0.1.15",
 		"isoly": "^0.1.19"
 	},
 	"overrides": {

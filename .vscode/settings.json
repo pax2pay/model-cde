@@ -27,7 +27,10 @@
 		"authly",
 		"cloudly",
 		"cryptly",
+		"detokenize",
+		"Encrypter",
 		"gracely",
+		"isly",
 		"isoly"
 	],
 	"jest.jestCommandLine": "npm run test --"
