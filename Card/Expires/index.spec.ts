@@ -1,6 +1,10 @@
 import { pax2pay } from "../../index"
 
 describe("Card.Expires", () => {
+	it("is [12, 24]", () => expect(pax2pay.cde.Card.Expires.is([12, 24])).toEqual(true))
+	it("is [1, 24]", () => expect(pax2pay.cde.Card.Expires.is([1, 24])).toEqual(true))
+	it("is not [13, 26]", () => expect(pax2pay.cde.Card.Expires.is([13, 26])).toEqual(false))
+	it("is not [1, 2026]", () => expect(pax2pay.cde.Card.Expires.is([1, 2026])).toEqual(false))
 	it("parse 12-24", () => expect(pax2pay.cde.Card.Expires.parse("12-24")).toEqual([12, 24]))
 
 	it("parse 12.24", () => expect(pax2pay.cde.Card.Expires.parse("12.24")).toEqual([12, 24]))
