@@ -1,16 +1,18 @@
+import { cryptly } from "cryptly"
 import { isoly } from "isoly"
 import { isly } from "isly"
-import { Key } from "../../Key"
 import { Expires } from "../Expires"
 import type { Card } from "../index"
 import { Masked } from "../Masked"
 import { Part } from "../Part"
+import { Key as TokenKey } from "./Key"
 import { Type } from "./Type"
 import { Unpacked as TokenUnpacked } from "./Unpacked"
 
 type CoreToken = `${string}/${string}/${string}/${string}/${string}/${string}`
 export type Token = CoreToken | `${CoreToken}/${Part}`
 export namespace Token {
+	export import Key = TokenKey
 	const patternString =
 		"(\\d{10,12})\\/(\\d{2})\\/([0-1]\\d{3})\\/((RSA[A-Za-z]{4})|([0-2]\\d[0-6][02468])|(((([02468][048])|([13579][2,6]))(02((0[1-9])|([1-2]\\d))))|(\\d{2}((((0[13578])|(1[02]))((0[1-9])|([1-2]\\d)|(3[01])))|(02((0[1-9])|(1\\d)|(2[0-8])))|(((0[469])|(11))((0[1-9])|([1-2]\\d)|(30)))))))\\/[a-zA-Z0-9\\-_]+\\/[a-zA-Z0-9\\-_]+(\\/(pan|csc|expires|month|year|masked))?"
 	export const pattern = new RegExp("^" + patternString + "$")
@@ -29,8 +31,7 @@ export namespace Token {
 	export function getType(value: string): Type | undefined {
 		return !is(value) ? undefined : unpack(value).key.startsWith("RSA") ? "asymmetric" : "symmetric"
 	}
-	export type Unpacked = TokenUnpacked
-	export const Unpacked = TokenUnpacked
+	export import Unpacked = TokenUnpacked
 	export function unpack(token: Token): Unpacked
 	export function unpack(
 		masked: string,
@@ -97,7 +98,51 @@ export namespace Token {
 			salt,
 		].join("/") as Token
 	}
-	export async function create(card: Card, key: string | Key.Public): Promise<Token | undefined> {
-		
-	} 
+	export async function create(card: Card, key: string | Key.Public | cryptly.Encrypter): Promise<Token | undefined> {
+		let result: Token | undefined
+		if (typeof key == "string")
+			result = await create(card, { public: key })
+		else if (Key.Public.is(key)) {
+			const encrypter = await cryptly.Encrypter.Rsa.import("public", key.public)
+			encrypter.name = Key.getName(key)
+			result = await create(card, encrypter)
+		} else {
+			const encrypted = await key.encrypt(card.pan + ":" + card.csc)
+			result =
+				encrypted &&
+				Token.pack(
+					card,
+					key.name ?? "",
+					encrypted.value,
+					cryptly.Encrypter.Aes.Encrypted.is(encrypted) ? encrypted.salt : "0"
+				)
+		}
+		return result
+	}
+	export async function detokenize(
+		token: Token | Unpacked | string[],
+		key: string | Key.Private | cryptly.Encrypter
+	): Promise<Card | undefined> {
+		let result: Card | undefined
+		if (Token.is(token))
+			result = await detokenize(unpack(token), key)
+		else if (Array.isArray(token))
+			result = await detokenize(unpack(token), key)
+		else if (typeof key == "string")
+			result = await detokenize(token, { private: key })
+		else if (Key.Private.is(key))
+			result = await detokenize(token, cryptly.Encrypter.Rsa.import("private", key.private))
+		else {
+			const decrypted = await key.decrypt({ value: token.encrypted, salt: token.salt })
+			if (decrypted) {
+				const [pan, csc] = decrypted.split(":")
+				result = {
+					pan,
+					csc,
+					...token,
+				}
+			}
+		}
+		return result
+	}
 }

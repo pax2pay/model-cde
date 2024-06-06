@@ -13,11 +13,11 @@ export interface Masked {
 export namespace Masked {
 	export const type = isly.object<Masked>(
 		{
-			masked: isly.string(/^\d{6,8}*+\d{4}/$),
+			masked: isly.string(/^\d{6,8}\*+\d{4}$/),
 			iin: isly.string(/^\d{6,8}$/),
 			last4: isly.string(/^\d{4}$/),
 			expires: Expires.type,
-			lapses: isly.fromIs<isoly.Date>("isoly.Date", isoly.Date.is).optional()
+			lapses: isly.fromIs<isoly.Date>("isoly.Date", isoly.Date.is).optional(),
 		},
 		"pax2pay.cde.Card.Masked"
 	)

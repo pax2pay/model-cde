@@ -5,7 +5,7 @@ import { Year as ExpiresYear } from "./Year"
 export type Expires = [ExpiresMonth, ExpiresYear] | [0, 0]
 
 export namespace Expires {
-	export const type = isly.named("pax2pay.cde.Card.Expires", isly.tuple<Expires>(ExpiresMonth.type, ExpiresYear.type))
+	export const type = isly.named("pax2pay.cde.Card.Expires", isly.union<Expires>(isly.tuple(ExpiresMonth.type, ExpiresYear.type), isly.tuple<[0, 0]>(isly.number(0), isly.number(0))))
 	export const is = type.is
 	export const flaw = type.flaw
 	export function stringify(expires: Expires): string {
