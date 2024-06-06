@@ -54,9 +54,13 @@ export abstract class Base {
 		token: string,
 		...argument: string[]
 	): Promise<(Card & Card.Masked) | Card.Masked | string | Card.Expires | number | undefined> {
-		const unpacked = argument.length == 0 ? Card.Token.unpack(token) : Card.Token.unpack([token, ...argument])
+		const unpacked = !Card.Token.is(token)
+			? undefined
+			: argument.length == 0
+			? Card.Token.unpack(token)
+			: Card.Token.unpack([token, ...argument])
 		let result: (Card & Card.Masked) | Card.Masked | string | Card.Expires | number | undefined
-		const fromUnpacked = await this.extractFromUnpackedToken(unpacked)
+		const fromUnpacked = unpacked && (await this.extractFromUnpackedToken(unpacked))
 		if (fromUnpacked)
 			result = !unpacked.part
 				? fromUnpacked
