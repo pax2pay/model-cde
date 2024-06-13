@@ -3,9 +3,6 @@ import * as http from "cloudly-http"
 import { Card as modelCard } from "../Card"
 
 export class Card extends http.Client<gracely.Error> {
-	async detokenize(token: modelCard.Token): Promise<modelCard | string | gracely.Error> {
-		return await this.get<modelCard | string>(`card/${token}`)
-	}
 	async getImage(token: modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
 		return await this.get<string>(`card/${token}${this.getQueryString(cardHolderName)}`, { accept: ["image/svg+xml"] })
 	}
@@ -27,6 +24,9 @@ export class Card extends http.Client<gracely.Error> {
 	}
 	async tokenize(card: modelCard, key?: string): Promise<modelCard.Token | gracely.Error> {
 		return await this.post<modelCard.Token>("card", card, key ? { cdePublicKey: key } : undefined)
+	}
+	async detokenize(token: modelCard.Token): Promise<modelCard | gracely.Error> {
+		return await this.get<modelCard>(`card/${token}`)
 	}
 	async modify(token: modelCard.Token, card?: Partial<modelCard>): Promise<string | gracely.Error> {
 		return await this.patch<string>(`card/${token}`, card ?? {})
