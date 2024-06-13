@@ -1,25 +1,45 @@
+import { cryptly } from "cryptly"
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import { Card as modelCard } from "../Card"
 
 export class Card extends http.Client<gracely.Error> {
-	async getImage(card: modelCard | modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
-		return this.getGraphics("image", card, cardHolderName)
+	constructor(connection: string, readonly backendKey: modelCard.Token.Key.Public) {
+		super(connection)
 	}
-	async getPdf(card: modelCard | modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
-		return this.getGraphics("pdf", card, cardHolderName)
-	}
-	private async getGraphics(
-		type: "image" | "pdf",
+	async getGraphicsUrl(
+		type: "svg" | "pdf",
 		card: modelCard | modelCard.Token,
-		cardHolderName?: string
-	): Promise<string | gracely.Error> {
-		const header = {
-			accept: [type == "pdf" ? "application/pdf" : "image/svg+xml"],
+		cardholder?: string
+	): Promise<string | undefined> {
+		const token = modelCard.is(card) ? await modelCard.Token.create(card, this.backendKey) : card
+		const result = (this.url && new URL(`${this.url}card/${token}`)) || undefined
+		if (result) {
+			result.searchParams.set("accept", type == "pdf" ? "application/pdf" : "image/svg+xml")
+			if (cardholder)
+				result.searchParams.set(
+					"ch",
+					cardholder.includes(" ") /* cleartext cardholder names must contain space */
+						? cryptly.Base64.encode(cardholder)
+						: cardholder
+				)
 		}
-		return modelCard.is(card)
-			? await this.post<string>(`card/raw${this.getQueryString(cardHolderName)}`, card, header)
-			: await this.get<string>(`card/${card}${this.getQueryString(cardHolderName)}`, header)
+		return result?.toString()
+	}
+	async getGraphics(
+		type: "svg" | "pdf",
+		card: modelCard | modelCard.Token,
+		cardholder?: string
+	): Promise<string | gracely.Error> {
+		const url = await this.getGraphicsUrl(type, card, cardholder)
+		return url && this.url
+			? await this.get<string>(url.substring(this.url?.length))
+			: gracely.client.invalidPathArgument(
+					"card/:token",
+					"token",
+					"pax2pay.cde.Token",
+					"Unable to create card token before requesting graphics."
+			  )
 	}
 	async tokenize(card: modelCard, key?: string): Promise<modelCard.Token | gracely.Error> {
 		return await this.post<modelCard.Token>("card", card, key ? { cdePublicKey: key } : undefined)
@@ -30,10 +50,11 @@ export class Card extends http.Client<gracely.Error> {
 	async modify(token: modelCard.Token, card?: Partial<modelCard>): Promise<string | gracely.Error> {
 		return await this.patch<string>(`card/${token}`, card ?? {})
 	}
-	getQueryString(cardHolderName?: string) {
-		return cardHolderName ? `?ch=${cardHolderName}` : ""
-	}
 	static create(connection: string): { card: Card } {
-		return { card: new Card(connection) }
+		return {
+			card: new Card(connection, {
+				public: connection.includes("https://api.pax2pay.com") ? "production-public-key" : "test-public-key",
+			}),
+		}
 	}
 }

@@ -14,6 +14,7 @@ export namespace Key {
 	export const type = isly.named("pax2pay.cde.Key", isly.intersection<Key, Private, Public>(Private.type, Public.type))
 	export const is = type.is
 	export const flaw = type.flaw
+
 	export async function generate(): Promise<Key | undefined> {
 		const result = await (await cryptly.Encrypter.Rsa.generate(2048)).export()
 		return Key.is(result) ? result : undefined
