@@ -3,24 +3,23 @@ import * as http from "cloudly-http"
 import { Card as modelCard } from "../Card"
 
 export class Card extends http.Client<gracely.Error> {
-	async getImage(token: modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
-		return await this.get<string>(`card/${token}${this.getQueryString(cardHolderName)}`, { accept: ["image/svg+xml"] })
+	async getImage(card: modelCard | modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
+		return this.getGraphics("image", card, cardHolderName)
 	}
-	async getPdf(token: modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
-		return await this.get<string>(`card/${token}${this.getQueryString(cardHolderName)}`, {
-			accept: ["application/pdf"],
-		})
+	async getPdf(card: modelCard | modelCard.Token, cardHolderName?: string): Promise<string | gracely.Error> {
+		return this.getGraphics("pdf", card, cardHolderName)
 	}
-	async getImageWithRawData(card: modelCard, cardHolderName?: string): Promise<string | gracely.Error> {
-		return await this.post<string>(`card/raw${this.getQueryString(cardHolderName)}`, card, {
-			accept: ["image/svg+xml"],
-		})
-	}
-	async getPdfWithRawData(card: modelCard, cardHolderName?: string): Promise<ArrayBuffer | gracely.Error> {
-		const response = await this.post<ArrayBuffer>(`card/raw${this.getQueryString(cardHolderName)}`, card, {
-			accept: ["application/pdf"],
-		})
-		return response
+	private async getGraphics(
+		type: "image" | "pdf",
+		card: modelCard | modelCard.Token,
+		cardHolderName?: string
+	): Promise<string | gracely.Error> {
+		const header = {
+			accept: [type == "pdf" ? "application/pdf" : "image/svg+xml"],
+		}
+		return modelCard.is(card)
+			? await this.post<string>(`card/raw${this.getQueryString(cardHolderName)}`, card, header)
+			: await this.get<string>(`card/${card}${this.getQueryString(cardHolderName)}`, header)
 	}
 	async tokenize(card: modelCard, key?: string): Promise<modelCard.Token | gracely.Error> {
 		return await this.post<modelCard.Token>("card", card, key ? { cdePublicKey: key } : undefined)
