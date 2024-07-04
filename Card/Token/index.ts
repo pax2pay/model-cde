@@ -2,6 +2,8 @@ import { cryptly } from "cryptly"
 import { isoly } from "isoly"
 import { isly } from "isly"
 import { Expires } from "../Expires"
+import { Month } from "../Expires/Month"
+import { Year } from "../Expires/Year"
 import type { Card } from "../index"
 import { Masked } from "../Masked"
 import { Part } from "../Part"
@@ -122,8 +124,8 @@ export namespace Token {
 	export async function detokenize(
 		token: Token | Unpacked | string[],
 		key: string | Key.Private | cryptly.Encrypter
-	): Promise<Card | undefined> {
-		let result: Card | undefined
+	): Promise<Card | string | Expires | Month | Year | undefined> {
+		let result: Card | string | Expires | Month | Year | undefined
 		if (Token.is(token))
 			result = await detokenize(unpack(token), key)
 		else if (Array.isArray(token))
@@ -136,11 +138,18 @@ export namespace Token {
 			const decrypted = await key.decrypt({ value: token.encrypted, salt: token.salt })
 			if (decrypted) {
 				const [pan, csc] = decrypted.split(":")
-				result = {
+				const detokenized = {
 					pan,
 					csc,
 					...token,
 				}
+				result = !token.part
+					? detokenized
+					: token.part == "month"
+					? detokenized.expires[0]
+					: token.part == "year"
+					? detokenized.expires[1]
+					: (detokenized as Partial<Card> & Card.Masked)[token.part]
 			}
 		}
 		return result
