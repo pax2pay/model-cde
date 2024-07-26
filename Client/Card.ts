@@ -1,4 +1,3 @@
-import { cryptly } from "cryptly"
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import { Card as modelCard } from "../Card"
@@ -17,12 +16,7 @@ export class Card extends http.Client<gracely.Error> {
 		if (result) {
 			result.searchParams.set("accept", type == "pdf" ? "application/pdf" : "image/svg+xml")
 			if (cardholder)
-				result.searchParams.set(
-					"ch",
-					cardholder.includes(" ") /* cleartext cardholder names must contain space */
-						? cryptly.Base64.encode(cardholder)
-						: cardholder
-				)
+				result.searchParams.set("ch", cardholder)
 		}
 		return result?.toString()
 	}
