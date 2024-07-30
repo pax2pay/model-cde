@@ -9,7 +9,7 @@ import { Masked } from "../Masked"
 import { Part } from "../Part"
 import { Key as TokenKey } from "./Key"
 import { Type } from "./Type"
-import { Unpacked as TokenUnpacked } from "./Unpacked"
+import { Unpacked as TokenUnpacked, Unpacked } from "./Unpacked"
 
 type CoreToken = `${string}/${string}/${string}/${string}/${string}/${string}`
 export type Token = CoreToken | `${CoreToken}/${Part}`
@@ -124,8 +124,8 @@ export namespace Token {
 	export async function detokenize(
 		token: Token | Unpacked | string[],
 		key: string | Key.Private | cryptly.Encrypter
-	): Promise<Card | string | Expires | Month | Year | undefined | (Card.Masked & Partial<Card>)> {
-		let result: Card | string | Expires | Month | Year | undefined | (Card.Masked & Partial<Card>)
+	): Promise<Card | string | Expires | Month | Year | undefined | (Token.Unpacked & Partial<Card>)> {
+		let result: Card | string | Expires | Month | Year | undefined | (Token.Unpacked & Partial<Card>)
 		if (Token.is(token))
 			result = await detokenize(unpack(token), key)
 		else if (Array.isArray(token))
@@ -136,7 +136,7 @@ export namespace Token {
 			result = await detokenize(token, cryptly.Encrypter.Rsa.import("private", key.private))
 		else {
 			const decrypted = await key.decrypt({ value: token.encrypted, salt: token.salt })
-			let detokenized: Partial<Card> & Card.Masked = { ...token }
+			let detokenized: Partial<Card> & Token.Unpacked = { ...token }
 			if (decrypted) {
 				const [pan, csc] = decrypted.split(":")
 				detokenized = {
