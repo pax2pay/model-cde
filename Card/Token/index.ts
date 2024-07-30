@@ -124,8 +124,8 @@ export namespace Token {
 	export async function detokenize(
 		token: Token | Unpacked | string[],
 		key: string | Key.Private | cryptly.Encrypter
-	): Promise<Card | string | Expires | Month | Year | undefined> {
-		let result: Card | string | Expires | Month | Year | undefined
+	): Promise<Card | string | Expires | Month | Year | undefined | (Card.Masked & Partial<Card>)> {
+		let result: Card | string | Expires | Month | Year | undefined | (Card.Masked & Partial<Card>)
 		if (Token.is(token))
 			result = await detokenize(unpack(token), key)
 		else if (Array.isArray(token))
@@ -136,21 +136,22 @@ export namespace Token {
 			result = await detokenize(token, cryptly.Encrypter.Rsa.import("private", key.private))
 		else {
 			const decrypted = await key.decrypt({ value: token.encrypted, salt: token.salt })
+			let detokenized: Partial<Card> & Card.Masked = { ...token }
 			if (decrypted) {
 				const [pan, csc] = decrypted.split(":")
-				const detokenized = {
+				detokenized = {
 					pan,
 					csc,
-					...token,
+					...detokenized,
 				}
-				result = !token.part
-					? detokenized
-					: token.part == "month"
-					? detokenized.expires[0]
-					: token.part == "year"
-					? detokenized.expires[1]
-					: (detokenized as Partial<Card> & Card.Masked)[token.part]
 			}
+			result = !token.part
+				? detokenized
+				: token.part == "month"
+				? detokenized.expires[0]
+				: token.part == "year"
+				? detokenized.expires[1]
+				: (detokenized as Partial<Card> & Card.Masked)[token.part]
 		}
 		return result
 	}
