@@ -12,7 +12,7 @@ export class Card extends http.Client<gracely.Error> {
 		cardholder?: string
 	): Promise<string | undefined> {
 		const token = modelCard.is(card) ? await modelCard.Token.create(card, this.backendKey) : card
-		const result = (this.url && new URL(`${this.url}card/${token}`)) || undefined
+		const result = (this.url && token && new URL(`${this.url}card/${token}`)) || undefined
 		if (result) {
 			result.searchParams.set("accept", type == "pdf" ? "application/pdf" : "image/svg+xml")
 			if (cardholder)
