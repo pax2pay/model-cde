@@ -1,26 +1,29 @@
 import * as model from "../index"
 
-const example =
+const exampleXml =
 	"<card>\n\t<cardNumber>1234123412341234</cardNumber>\n\t<csc>987</csc>\n\t<someOtherInfo>apojarigraiog</someOtherInfo>\n\t<expires>12/24</expires>\n</card>"
 
+const examplePlain = "cardnumber=1234123412341234&csc=789&asd=qwe&expiry=0925"
+const examplePlainLongerDelimiters = "cardnumber===1234123412341234&&&csc===789&&&asd===qwe&&&expiry===0925"
+
 describe("@pax2pay/model.Proxy.Pattern", () => {
-	it("get string", async () => {
-		expect(model.Proxy.Pattern.get(example, "cardNumber")).toEqual("1234123412341234")
-		expect(model.Proxy.Pattern.get(example, "csc")).toEqual("987")
-		expect(model.Proxy.Pattern.get(example, "expires")).toEqual("12/24")
+	it("getInXml string", async () => {
+		expect(model.Proxy.Pattern.getInXml(exampleXml, "cardNumber")).toEqual("1234123412341234")
+		expect(model.Proxy.Pattern.getInXml(exampleXml, "csc")).toEqual("987")
+		expect(model.Proxy.Pattern.getInXml(exampleXml, "expires")).toEqual("12/24")
 	})
 
-	it("get regexp", async () => {
-		expect(model.Proxy.Pattern.get(example, new RegExp("cardNumber"))).toEqual("1234123412341234")
-		expect(model.Proxy.Pattern.get(example, new RegExp("csc"))).toEqual("987")
-		expect(model.Proxy.Pattern.get(example, new RegExp("expires"))).toEqual("12/24")
+	it("getInXml regexp", async () => {
+		expect(model.Proxy.Pattern.getInXml(exampleXml, new RegExp("cardNumber"))).toEqual("1234123412341234")
+		expect(model.Proxy.Pattern.getInXml(exampleXml, new RegExp("csc"))).toEqual("987")
+		expect(model.Proxy.Pattern.getInXml(exampleXml, new RegExp("expires"))).toEqual("12/24")
 	})
 
-	it("set", async () => {
-		let newExample = model.Proxy.Pattern.set(example, "cardNumber", "1111222233334444")
-		expect(model.Proxy.Pattern.get(newExample, "cardNumber")).toEqual("1111222233334444")
-		newExample = model.Proxy.Pattern.set(newExample, "csc", "123")
-		expect(model.Proxy.Pattern.get(newExample, "csc")).toEqual("123")
+	it("setInXml", async () => {
+		let newExample = model.Proxy.Pattern.setInXml(exampleXml, "cardNumber", "1111222233334444")
+		expect(model.Proxy.Pattern.getInXml(newExample, "cardNumber")).toEqual("1111222233334444")
+		newExample = model.Proxy.Pattern.setInXml(newExample, "csc", "123")
+		expect(model.Proxy.Pattern.getInXml(newExample, "csc")).toEqual("123")
 	})
 
 	it("shouldnt replace itself badly when theres a substring", () => {
@@ -75,7 +78,46 @@ describe("@pax2pay/model.Proxy.Pattern", () => {
 		  </soap:Body>
 		</soap:Envelope>
 		`
-		const replaced = model.Proxy.Pattern.set(rs, "CVV", "token/stuff")
+		const replaced = model.Proxy.Pattern.setInXml(rs, "CVV", "token/stuff")
 		expect(replaced).toEqual(expected)
+	})
+
+	it("getInPlain string", async () => {
+		expect(model.Proxy.Pattern.getInPlain(examplePlain, "cardnumber", "&", "=")).toEqual("1234123412341234")
+		expect(model.Proxy.Pattern.getInPlain(examplePlain, "csc", "&", "=")).toEqual("789")
+		expect(model.Proxy.Pattern.getInPlain(examplePlain, "asd", "&", "=")).toEqual("qwe")
+		expect(model.Proxy.Pattern.getInPlain(examplePlain, "expiry", "&", "=")).toEqual("0925")
+
+		expect(model.Proxy.Pattern.getInPlain(examplePlainLongerDelimiters, "cardnumber", "&&&", "===")).toEqual(
+			"1234123412341234"
+		)
+		expect(model.Proxy.Pattern.getInPlain(examplePlainLongerDelimiters, "csc", "&&&", "===")).toEqual("789")
+		expect(model.Proxy.Pattern.getInPlain(examplePlainLongerDelimiters, "asd", "&&&", "===")).toEqual("qwe")
+		expect(model.Proxy.Pattern.getInPlain(examplePlainLongerDelimiters, "expiry", "&&&", "===")).toEqual("0925")
+	})
+
+	it("getInPlain regex", async () => {
+		expect(model.Proxy.Pattern.getInPlain(examplePlain, new RegExp("cardnumber"), "&", "=")).toEqual("1234123412341234")
+		expect(model.Proxy.Pattern.getInPlain(examplePlain, new RegExp("csc"), "&", "=")).toEqual("789")
+		expect(model.Proxy.Pattern.getInPlain(examplePlain, new RegExp("asd"), "&", "=")).toEqual("qwe")
+		expect(model.Proxy.Pattern.getInPlain(examplePlain, new RegExp("expiry"), "&", "=")).toEqual("0925")
+
+		expect(
+			model.Proxy.Pattern.getInPlain(examplePlainLongerDelimiters, new RegExp("cardnumber"), "&&&", "===")
+		).toEqual("1234123412341234")
+		expect(model.Proxy.Pattern.getInPlain(examplePlainLongerDelimiters, new RegExp("csc"), "&&&", "===")).toEqual("789")
+		expect(model.Proxy.Pattern.getInPlain(examplePlainLongerDelimiters, new RegExp("asd"), "&&&", "===")).toEqual("qwe")
+		expect(model.Proxy.Pattern.getInPlain(examplePlainLongerDelimiters, new RegExp("expiry"), "&&&", "===")).toEqual(
+			"0925"
+		)
+	})
+
+	it("setInPlain", async () => {
+		let newExample = model.Proxy.Pattern.setInPlain(examplePlain, "cardnumber", "1111222233334444", "&", "=")
+		expect(model.Proxy.Pattern.getInPlain(newExample, "cardnumber", "&", "=")).toEqual("1111222233334444")
+		newExample = model.Proxy.Pattern.setInPlain(newExample, "csc", "123", "&", "=")
+		expect(model.Proxy.Pattern.getInPlain(newExample, "csc", "&", "=")).toEqual("123")
+		newExample = model.Proxy.Pattern.setInPlain(newExample, "expiry", "1133", "&", "=")
+		expect(model.Proxy.Pattern.getInPlain(newExample, "expiry", "&", "=")).toEqual("1133")
 	})
 })
