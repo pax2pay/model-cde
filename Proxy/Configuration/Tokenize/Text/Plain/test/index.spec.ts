@@ -1,4 +1,4 @@
-import { pax2pay } from "../../../../../.."
+import { pax2pay } from "../../../../../../index"
 import { configurations } from "./configurations"
 import { dataset } from "./dataset"
 
