@@ -34,7 +34,7 @@ export namespace Token {
 		return !is(value) ? undefined : unpack(value).key.startsWith("RSA") ? "asymmetric" : "symmetric"
 	}
 	export import Unpacked = TokenUnpacked
-	export function unpack(token: Token): Unpacked
+	export function unpack(token: Token | string[]): Unpacked
 	export function unpack(
 		masked: string,
 		length: string,
@@ -52,8 +52,7 @@ export namespace Token {
 		salt: string,
 		part: string
 	): Unpacked
-	export function unpack(token: string[]): Unpacked
-	export function unpack(...argument: Token[] | string[] | string[][]): Unpacked {
+	export function unpack(...argument: [Token | string[]] | string[]): Unpacked {
 		const splitted: string[] =
 			argument.length != 1
 				? (argument as string[])
@@ -126,9 +125,7 @@ export namespace Token {
 		key: string | Key.Private | cryptly.Encrypter
 	): Promise<Card | string | Expires | Month | Year | undefined | (Unpacked & Partial<Card>)> {
 		let result: Card | string | Expires | Month | Year | undefined | (Unpacked & Partial<Card>)
-		if (Token.is(token))
-			result = await detokenize(unpack(token), key)
-		else if (Array.isArray(token))
+		if (Token.is(token) || Array.isArray(token))
 			result = await detokenize(unpack(token), key)
 		else if (typeof key == "string")
 			result = await detokenize(token, { private: key })
