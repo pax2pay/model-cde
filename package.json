@@ -32,8 +32,10 @@
 			"dist/",
 			"Proxy/Configuration/Tokenize/Json/test/configurations.ts",
 			"Proxy/Configuration/Tokenize/Json/test/dataset.ts",
-			"Proxy/Configuration/Tokenize/Text/test/configurations.ts",
-			"Proxy/Configuration/Tokenize/Text/test/dataset.ts"
+			"Proxy/Configuration/Tokenize/Text/Xml/test/configurations.ts",
+			"Proxy/Configuration/Tokenize/Text/Xml/test/dataset.ts",
+			"Proxy/Configuration/Tokenize/Text/Plain/test/configurations.ts",
+			"Proxy/Configuration/Tokenize/Text/Plain/test/dataset.ts"
 		],
 		"collectCoverageFrom": [
 			"**/*.{ts,tsx,js,jsx}",

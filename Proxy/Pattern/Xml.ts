@@ -1,10 +1,12 @@
-export type Pattern = RegExp | string
+import { Pattern } from "."
+import { BasePattern } from "./BasePattern"
 
-export namespace Pattern {
-	export function is(value: Pattern | any): value is Pattern {
-		return typeof value == "string" || value instanceof RegExp
+export class Xml extends BasePattern {
+	constructor() {
+		super()
 	}
-	export function get(data: string, pattern: Pattern): string {
+
+	extract(data: string, pattern: Pattern): string {
 		let result: string | null
 		if (typeof pattern == "string") {
 			const matched = data.match(new RegExp(pattern + ">" + "[^<]*"))
@@ -22,10 +24,10 @@ export namespace Pattern {
 			}
 		}
 
-		return result != null ? result.substr(result.indexOf(">") + 1) : ""
+		return result != null ? result.substring(result.indexOf(">") + 1) : ""
 	}
 
-	export function set(data: any, pattern: Pattern, value: any): string {
+	apply(data: any, pattern: Pattern, value: any): string {
 		let matched
 		if (typeof pattern == "string") {
 			matched = data.matchAll(new RegExp("<" + pattern + ">", "g"))

@@ -1,6 +1,12 @@
 {
 	"extends": "./tsconfig.test.json",
 	"compilerOptions": {
+		"target": "es2021",
+		"module": "es2020",
+		"lib": [
+			"es2021",
+			"webworker"
+		],
 		"declaration": true,
 		"sourceMap": true,
 		"sourceRoot": "../",

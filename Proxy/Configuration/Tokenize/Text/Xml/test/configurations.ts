@@ -1,4 +1,4 @@
-import { Text } from "./../index"
+import { Xml } from "./../index"
 
 export const configurations = {
 	expires: {
@@ -21,4 +21,4 @@ export const configurations = {
 			},
 		],
 	},
-} as Record<string, Text>
+} as Record<string, Xml>
