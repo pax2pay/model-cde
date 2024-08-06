@@ -29,7 +29,7 @@ export namespace Masked {
 		const iin = card.pan.slice(0, iinLength)
 		const last4 = card.pan.slice(length - 4, length)
 		const result: Masked = {
-			masked: iin + "*".repeat(length - iinLength + 4) + last4,
+			masked: iin + "*".repeat(length - iinLength - 4) + last4,
 			iin,
 			last4,
 			expires: card.expires,
