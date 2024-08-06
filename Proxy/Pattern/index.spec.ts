@@ -1,4 +1,4 @@
-import * as model from "../../index"
+import { pax2pay } from "../../index"
 import { Plain } from "../Configuration/Tokenize/Text/Plain"
 
 const examplePlainConfig: Plain = {
@@ -33,9 +33,9 @@ const examplePlainConfigLongerDelimiters: Plain = {
 	equalsDelimiter: "===",
 }
 
-const plainPattern = new model.Proxy.Pattern.Plain(examplePlainConfig)
-const plainPatternLongerDelimiters = new model.Proxy.Pattern.Plain(examplePlainConfigLongerDelimiters)
-const xmlPattern = new model.Proxy.Pattern.Xml()
+const plainPattern = new pax2pay.cde.Proxy.Pattern.Plain(examplePlainConfig)
+const plainPatternLongerDelimiters = new pax2pay.cde.Proxy.Pattern.Plain(examplePlainConfigLongerDelimiters)
+const xmlPattern = new pax2pay.cde.Proxy.Pattern.Xml()
 
 const exampleXml =
 	"<card>\n\t<cardNumber>1234123412341234</cardNumber>\n\t<csc>987</csc>\n\t<someOtherInfo>apojarigraiog</someOtherInfo>\n\t<expires>12/24</expires>\n</card>"
