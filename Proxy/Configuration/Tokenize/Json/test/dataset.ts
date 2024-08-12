@@ -55,6 +55,20 @@ export const dataset = {
 			expires: [2, 2022],
 		},
 	},
+	cardExpiryYearFirstString: {
+		card: {
+			pan: "4567890123457890",
+			csc: "987",
+			expires: "222",
+		},
+	},
+	cardExpiryYearFirstLongString: {
+		card: {
+			pan: "4567890123457890",
+			csc: "987",
+			expires: "20222",
+		},
+	},
 	cardNoExpiry: {
 		card: {
 			pan: "1234123412341234",

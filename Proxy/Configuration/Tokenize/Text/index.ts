@@ -16,7 +16,16 @@ export namespace Text {
 			month = Card.Expires.Month.parse(pattern.extract(body, configuration.card.month))
 			year = Card.Expires.Year.parse(pattern.extract(body, configuration.card.year))
 		} else if (CardType.Expires.is(configuration.card)) {
-			const monthYear = Card.Expires.parse(pattern.extract(body, configuration.card.expires))
+			let selector
+			let monthFirst
+			if (Array.isArray(configuration.card.expires)) {
+				selector = configuration.card.expires[0]
+				monthFirst = configuration.card.expires[1] == "MMYY"
+			} else {
+				selector = configuration.card.expires
+				monthFirst = true
+			}
+			const monthYear = Card.Expires.parse(pattern.extract(body, selector), monthFirst)
 			month = monthYear ? monthYear[0] : undefined
 			year = monthYear ? monthYear[1] : undefined
 		}

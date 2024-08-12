@@ -29,10 +29,7 @@ export namespace Json {
 				value.card.year &&
 				Selector.is(value.card.year) &&
 				value.card.expires == undefined) ||
-				(value.card.month == undefined &&
-					value.card.year == undefined &&
-					value.card.expires &&
-					Selector.is(value.card.expires)) ||
+				(value.card.month == undefined && value.card.year == undefined && CardType.Expires.is({ ...value.card })) ||
 				(value.card.month == undefined && value.card.year == undefined && value.card.expires == undefined)) &&
 			value.set &&
 			Array.isArray(value.set) &&
@@ -61,7 +58,16 @@ export namespace Json {
 			month = Card.Expires.Month.parse(Selector.get(body, configuration.card.month))
 			year = Card.Expires.Year.parse(Selector.get(body, configuration.card.year))
 		} else if (CardType.Expires.is(configuration.card)) {
-			const monthYear = Card.Expires.parse(Selector.get(body, configuration.card.expires))
+			let selector
+			let monthFirst
+			if (Array.isArray(configuration.card.expires)) {
+				selector = configuration.card.expires[0]
+				monthFirst = configuration.card.expires[1] == "MMYY"
+			} else {
+				selector = configuration.card.expires
+				monthFirst = true
+			}
+			const monthYear = Card.Expires.parse(Selector.get(body, selector), monthFirst)
 			month = monthYear ? monthYear[0] : undefined
 			year = monthYear ? monthYear[1] : undefined
 		}
