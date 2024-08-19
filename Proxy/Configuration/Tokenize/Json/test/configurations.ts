@@ -41,6 +41,26 @@ export const configurations = {
 			},
 		],
 	},
+	expiresYearFirst: {
+		type: "json",
+		url: "asd123",
+		card: {
+			pan: "card.pan",
+			csc: "card.csc",
+			expires: ["card.expires", "YYMM"],
+		},
+		set: [
+			{
+				find: "card.pan",
+				value: "$(masked)",
+			},
+			"card.csc",
+			{
+				find: "card.token",
+				value: "$(token)",
+			},
+		],
+	},
 	noExpires: {
 		type: "json",
 		url: "asd123",

@@ -3,7 +3,7 @@ import { configurations } from "./configurations"
 import { dataset } from "./dataset"
 
 describe("@pax2pay/pax2pay.cde.Proxy.Configuration.Tokenize.TextPlain", () => {
-	it("extract", async () => {
+	it("extract generic", async () => {
 		const data = dataset["generic"]
 		const config = configurations["expires"]
 		expect(pax2pay.cde.Proxy.Configuration.Tokenize.Text.Plain.is(config)).toBeTruthy()
@@ -15,7 +15,18 @@ describe("@pax2pay/pax2pay.cde.Proxy.Configuration.Tokenize.TextPlain", () => {
 			expires: [9, 25],
 		})
 	})
+	it("extract genericYearFirst", async () => {
+		const data = dataset["genericYearFirst"]
+		const config = configurations["expiresYearFirst"]
+		expect(pax2pay.cde.Proxy.Configuration.Tokenize.Text.Plain.is(config)).toBeTruthy()
 
+		const card = pax2pay.cde.Proxy.Configuration.Tokenize.Text.extract(config, data)
+		expect(card).toMatchObject({
+			pan: "1234123412341234",
+			csc: "789",
+			expires: [9, 25],
+		})
+	})
 	it("process regular", async () => {
 		const data = dataset["generic"]
 		const config = configurations["expires"]

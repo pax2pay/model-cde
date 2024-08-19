@@ -152,6 +152,32 @@ describe("pax2pay.cde.Proxy.Configuration.Tokenize.Json", () => {
 		})
 	})
 
+	it("extract, expiry year first string", () => {
+		const card = pax2pay.cde.Proxy.Configuration.Tokenize.Json.extract(
+			configurations.expiresYearFirst,
+			dataset.cardExpiryYearFirstString
+		)
+		expect(pax2pay.cde.Card.is(card))
+		expect(card).toEqual({
+			pan: "4567890123457890",
+			csc: "987",
+			expires: [2, 22],
+		})
+	})
+
+	it("extract, expiry year first long string", () => {
+		const card = pax2pay.cde.Proxy.Configuration.Tokenize.Json.extract(
+			configurations.expiresYearFirst,
+			dataset.cardExpiryYearFirstLongString
+		)
+		expect(pax2pay.cde.Card.is(card))
+		expect(card).toEqual({
+			pan: "4567890123457890",
+			csc: "987",
+			expires: [2, 22],
+		})
+	})
+
 	it("extract, date list string 2, 2022", () => {
 		const card = pax2pay.cde.Proxy.Configuration.Tokenize.Json.extract(
 			configurations.monthYear,
@@ -198,6 +224,37 @@ describe("pax2pay.cde.Proxy.Configuration.Tokenize.Json", () => {
 				card: {
 					pan: "pan",
 					csc: "cvv2",
+				},
+				set: [
+					{
+						find: "pan",
+						value: "$(masked)",
+					},
+					"cvv2",
+					{
+						find: "token",
+						value: "$(token)",
+					},
+					{
+						find: "encrypted",
+						value: "$(encrypted)",
+					},
+				],
+			})
+		).toBeTruthy()
+	})
+
+	it("is expiry year first", async () => {
+		expect(
+			jsons.map(item => pax2pay.cde.Proxy.Configuration.Tokenize.Json.is(item)).every(item => item == true)
+		).toBeTruthy()
+		expect(
+			pax2pay.cde.Proxy.Configuration.Tokenize.Json.is({
+				type: "json",
+				card: {
+					pan: "pan",
+					csc: "cvv2",
+					expires: ["expiry", "YYMM"],
 				},
 				set: [
 					{

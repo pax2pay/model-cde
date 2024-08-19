@@ -27,4 +27,30 @@ export const configurations = {
 			},
 		],
 	},
+	expiresYearFirst: {
+		type: "plain",
+		entryDelimiter: "&",
+		equalsDelimiter: "=",
+		url: "asd123",
+		card: {
+			pan: "cardnumber",
+			csc: "csc",
+			expires: ["expiry", "YYMM"],
+		},
+		set: [
+			{
+				find: "cardnumber",
+				value: "$(masked)",
+			},
+			"csc",
+			{
+				find: "token",
+				value: "$(token)",
+			},
+			{
+				find: "asd",
+				value: "$(token)",
+			},
+		],
+	},
 } as Record<string, Plain>

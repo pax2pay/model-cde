@@ -16,6 +16,16 @@ const expiresCard = {
 	expires: "expiryDate",
 }
 
+const expiresArrayYearFirstCard = {
+	...baseCard,
+	expires: ["expiryDate", "YYMM"],
+}
+
+const expiresArrayMonthFirstCard = {
+	...baseCard,
+	expires: ["expiryDate", "MMYY"],
+}
+
 describe("Proxy.Configuration.Tokenize.Json.Card", () => {
 	it("Base.is", async () => {
 		expect(Card.Base.is(baseCard)).toBeTruthy()
@@ -29,5 +39,7 @@ describe("Proxy.Configuration.Tokenize.Json.Card", () => {
 		expect(Card.Expires.is(baseCard)).toBeFalsy()
 		expect(Card.Expires.is(monthYearCard)).toBeFalsy()
 		expect(Card.Expires.is(expiresCard)).toBeTruthy()
+		expect(Card.Expires.is(expiresArrayYearFirstCard)).toBeTruthy()
+		expect(Card.Expires.is(expiresArrayMonthFirstCard)).toBeTruthy()
 	})
 })
