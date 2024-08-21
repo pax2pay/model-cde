@@ -1,6 +1,7 @@
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import { Card as modelCard } from "../Card"
+import { test as testPublicKey } from "./publicKeys"
 
 export class Card extends http.Client<gracely.Error> {
 	constructor(connection: string, readonly backendKey: modelCard.Token.Key.Public) {
@@ -47,7 +48,7 @@ export class Card extends http.Client<gracely.Error> {
 	static create(connection: string): { card: Card } {
 		return {
 			card: new Card(connection, {
-				public: connection.includes("https://api.pax2pay.com") ? "production-public-key" : "test-public-key",
+				public: connection.includes("https://api.pax2pay.com") ? "production-public-key" : testPublicKey,
 			}),
 		}
 	}
