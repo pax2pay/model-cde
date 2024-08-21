@@ -1,6 +1,7 @@
 import * as gracely from "gracely"
 import * as http from "cloudly-http"
 import { Card as modelCard } from "../Card"
+import { test as testPublicKey } from "./publicKeys"
 
 export class Card extends http.Client<gracely.Error> {
 	constructor(connection: string, readonly backendKey: modelCard.Token.Key.Public) {
@@ -47,9 +48,7 @@ export class Card extends http.Client<gracely.Error> {
 	static create(connection: string): { card: Card } {
 		return {
 			card: new Card(connection, {
-				public: connection.includes("https://api.pax2pay.com")
-					? "production-public-key"
-					: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9LwPP/B8VdWLI0bOHkkAczNIJ0bUqXI+2bXH34DRT7w7efgfEtsLCQsF2AjmEXyYyRSC1nZOB0eggM/9tzhuPfa17j9e6Ob2ugxuIY0MHCPsTBm2l0T7GEJIPYBIwaVwkTEwv6hao7EBH5OV51UOHSpnuc9YsBYl68s5cMoN5REVj3ybzFZ71jWu3GLeY+w2YIH9/km2sKDDpTdzWrmtsVZMo7j+ffm01xhCWHqrSSatESUgR545Bn6AuIuU+X+PHPNHJDwIecgtjg538VF9PvYaAbGC/2wZR8kKn/WBiI8l967EuA+nioUYl2tGWgRBeNA0bb5zR64iq/q1CSwJEwIDAQAB",
+				public: connection.includes("https://api.pax2pay.com") ? "production-public-key" : testPublicKey,
 			}),
 		}
 	}
