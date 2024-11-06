@@ -14,4 +14,13 @@ describe("pax2pay.cde.Key", () => {
 			public: expect.stringMatching(/^MIIB[a-zA-z0-9+/=]{370,390}$/),
 		}))
 	it("getName", async () => expect(await pax2pay.cde.Key.getName(key)).toMatchInlineSnapshot(`"RSAAWgP"`))
+
+	it("test actual key names", async () => {
+		expect(await pax2pay.cde.Key.getName({ public: pax2pay.cde.PublicKeys.test })).toEqual(
+			pax2pay.cde.PublicKeys.testName
+		)
+		expect(await pax2pay.cde.Key.getName({ public: pax2pay.cde.PublicKeys.prod })).toEqual(
+			pax2pay.cde.PublicKeys.prodName
+		)
+	})
 })
