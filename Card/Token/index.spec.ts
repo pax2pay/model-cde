@@ -32,7 +32,7 @@ describe("@pax2pay/model.Card.Token", () => {
 				"FlBUNQjpk4R9g_dcw6WYzQ"
 			)
 		).toEqual("4567897890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"))
-	it("pack 8 digit bin", () =>
+	it("pack 8 digit bin", () => {
 		expect(
 			pax2pay.cde.Card.Token.pack(
 				{
@@ -44,7 +44,20 @@ describe("@pax2pay/model.Card.Token", () => {
 				"0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
 				"FlBUNQjpk4R9g_dcw6WYzQ"
 			)
-		).toEqual("455618005890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"))
+		).toEqual("455618005890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ")
+		expect(
+			pax2pay.cde.Card.Token.pack(
+				{
+					pan: "4567255712345890",
+					csc: "987",
+					expires: [2, 21],
+				},
+				"1354",
+				"0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+				"FlBUNQjpk4R9g_dcw6WYzQ"
+			)
+		).toEqual("456725575890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ")
+	})
 	it("unpack", () =>
 		expect(
 			pax2pay.cde.Card.Token.unpack(
@@ -60,7 +73,7 @@ describe("@pax2pay/model.Card.Token", () => {
 			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
 			part: undefined,
 		}))
-	it("unpack 8 digit bin", () =>
+	it("unpack 8 digit bin", () => {
 		expect(
 			pax2pay.cde.Card.Token.unpack(
 				"455618007890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
@@ -74,7 +87,22 @@ describe("@pax2pay/model.Card.Token", () => {
 			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
 			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
 			part: undefined,
-		}))
+		})
+		expect(
+			pax2pay.cde.Card.Token.unpack(
+				"456725577890/16/0221/1354/0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg/FlBUNQjpk4R9g_dcw6WYzQ"
+			)
+		).toEqual({
+			masked: "45672557****7890",
+			iin: "45672557",
+			last4: "7890",
+			expires: [2, 21],
+			key: "1354",
+			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
+			part: undefined,
+		})
+	})
 	it("unpack splitted", () =>
 		expect(
 			pax2pay.cde.Card.Token.unpack(
@@ -95,7 +123,7 @@ describe("@pax2pay/model.Card.Token", () => {
 			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
 			part: undefined,
 		}))
-	it("unpack splitted 8 digit bin", () =>
+	it("unpack splitted 8 digit bin", () => {
 		expect(
 			pax2pay.cde.Card.Token.unpack(
 				"455618007890",
@@ -114,7 +142,27 @@ describe("@pax2pay/model.Card.Token", () => {
 			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
 			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
 			part: undefined,
-		}))
+		})
+		expect(
+			pax2pay.cde.Card.Token.unpack(
+				"456725577890",
+				"16",
+				"0221",
+				"1354",
+				"0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+				"FlBUNQjpk4R9g_dcw6WYzQ"
+			)
+		).toEqual({
+			masked: "45672557****7890",
+			iin: "45672557",
+			last4: "7890",
+			expires: [2, 21],
+			key: "1354",
+			encrypted: "0ktG52FXmULx7-3mrj0smEWvJWwuJNA9eQNr8O8kBBKy_gvg",
+			salt: "FlBUNQjpk4R9g_dcw6WYzQ",
+			part: undefined,
+		})
+	})
 	it("unpack splitted w/ part", () =>
 		expect(
 			pax2pay.cde.Card.Token.unpack(
