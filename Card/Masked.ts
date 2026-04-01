@@ -35,8 +35,9 @@ export namespace Masked {
 			last4,
 			expires: card.expires,
 		}
-		if (card.lapses)
+		if (card.lapses) {
 			result.lapses = card.lapses
+		}
 		return result
 	}
 }

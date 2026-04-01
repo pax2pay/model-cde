@@ -49,8 +49,9 @@ export namespace Text {
 			year: masked.expires[1].toString(),
 		}
 		return configuration.set.reduce((r, replacement) => {
-			if (typeof replacement == "string")
+			if (typeof replacement == "string") {
 				replacement = { find: replacement }
+			}
 			return pattern.apply(
 				r,
 				replacement.find,

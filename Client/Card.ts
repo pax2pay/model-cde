@@ -3,7 +3,10 @@ import * as http from "cloudly-http"
 import { Card as modelCard } from "../Card"
 import { PublicKeys } from "../publicKeys"
 export class Card extends http.Client<gracely.Error> {
-	constructor(connection: string, readonly backendKey: modelCard.Token.Key.Public) {
+	constructor(
+		connection: string,
+		readonly backendKey: modelCard.Token.Key.Public
+	) {
 		super(connection)
 	}
 	async getGraphicsUrl(
@@ -15,8 +18,9 @@ export class Card extends http.Client<gracely.Error> {
 		const result = (this.url && token && new URL(`${this.url}card/${token}`)) || undefined
 		if (result) {
 			result.searchParams.set("accept", type == "pdf" ? "application/pdf" : "image/svg+xml")
-			if (cardholder)
+			if (cardholder) {
 				result.searchParams.set("ch", cardholder)
+			}
 		}
 		return result?.toString()
 	}
@@ -33,7 +37,7 @@ export class Card extends http.Client<gracely.Error> {
 					"token",
 					"pax2pay.cde.Token",
 					"Unable to create card token before requesting graphics."
-			  )
+				)
 	}
 	async tokenize(card: modelCard, key?: string): Promise<modelCard.Token | gracely.Error> {
 		return await this.post<modelCard.Token>("card", card, key ? { cdePublicKey: key } : undefined)
