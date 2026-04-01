@@ -89,8 +89,9 @@ export namespace Json {
 			year: masked.expires[1].toString(),
 		}
 		return configuration.set.reduce((r, replacement) => {
-			if (typeof replacement == "string")
+			if (typeof replacement == "string") {
 				replacement = { find: replacement }
+			}
 			return Selector.set(
 				r,
 				replacement.find,

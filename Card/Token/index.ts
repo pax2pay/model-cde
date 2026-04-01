@@ -57,8 +57,8 @@ export namespace Token {
 			argument.length != 1
 				? (argument as string[])
 				: typeof argument[0] == "string"
-				? argument[0].split("/")
-				: argument[0]
+					? argument[0].split("/")
+					: argument[0]
 		const length = splitted[0].length
 		const iin = splitted[0].slice(0, length - 4)
 		const last4 = splitted[0].slice(length - 4, length)
@@ -83,8 +83,9 @@ export namespace Token {
 				result.key.substring(2, 4) +
 				"-" +
 				result.key.substring(4, 6)
-			if (isoly.Date.is(lapses))
+			if (isoly.Date.is(lapses)) {
 				result.lapses = lapses
+			}
 		}
 		return result
 	}
@@ -101,9 +102,9 @@ export namespace Token {
 	}
 	export async function create(card: Card, key: string | Key.Public | cryptly.Encrypter): Promise<Token | undefined> {
 		let result: Token | undefined
-		if (typeof key == "string")
+		if (typeof key == "string") {
 			result = await create(card, { public: key })
-		else if (Key.Public.is(key)) {
+		} else if (Key.Public.is(key)) {
 			const encrypter = await cryptly.Encrypter.Rsa.import("public", key.public)
 			encrypter.name = Key.getName(key)
 			result = await create(card, encrypter)
@@ -125,13 +126,13 @@ export namespace Token {
 		key: string | Key.Private | cryptly.Encrypter
 	): Promise<Card | string | Expires | Month | Year | undefined | (Unpacked & Partial<Card>)> {
 		let result: Card | string | Expires | Month | Year | undefined | (Unpacked & Partial<Card>)
-		if (Token.is(token) || Array.isArray(token))
+		if (Token.is(token) || Array.isArray(token)) {
 			result = await detokenize(unpack(token), key)
-		else if (typeof key == "string")
+		} else if (typeof key == "string") {
 			result = await detokenize(token, { private: key })
-		else if (Key.Private.is(key))
+		} else if (Key.Private.is(key)) {
 			result = await detokenize(token, cryptly.Encrypter.Rsa.import("private", key.private))
-		else {
+		} else {
 			const decrypted = await key.decrypt({ value: token.encrypted, salt: token.salt })
 			let detokenized: Partial<Card> & Unpacked = { ...token }
 			if (decrypted) {
@@ -145,10 +146,10 @@ export namespace Token {
 			result = !token.part
 				? detokenized
 				: token.part == "month"
-				? detokenized.expires[0]
-				: token.part == "year"
-				? detokenized.expires[1]
-				: (detokenized as Partial<Card> & Card.Masked)[token.part]
+					? detokenized.expires[0]
+					: token.part == "year"
+						? detokenized.expires[1]
+						: (detokenized as Partial<Card> & Card.Masked)[token.part]
 		}
 		return result
 	}

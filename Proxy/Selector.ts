@@ -13,25 +13,27 @@ export namespace Selector {
 	}
 	export function get<T = any>(data: any, selector: Selector | (string | number)[]): T {
 		let result: any
-		if (typeof selector == "string")
+		if (typeof selector == "string") {
 			result = get(data, parse(selector))
-		else
+		} else {
 			result = selector.length == 0 ? data : get(data[selector[0]], selector.slice(1))
+		}
 		return result as T
 	}
 	export function set(data: any, selector: Selector | (string | number)[], value: any): any {
 		let result: any
-		if (typeof selector == "string")
+		if (typeof selector == "string") {
 			result = set(data, parse(selector), value)
-		else
+		} else {
 			result =
 				selector.length == 1 && !Array.isArray(data) && value == undefined
 					? (({ [selector[0]]: _, ...left }) => left)(data)
 					: selector.length == 0
-					? value
-					: Object.assign(Array.isArray(data) ? [...data] : { ...data }, {
-							[selector[0]]: set(data[selector[0]], selector.slice(1), value),
-					  })
+						? value
+						: Object.assign(Array.isArray(data) ? [...data] : { ...data }, {
+								[selector[0]]: set(data[selector[0]], selector.slice(1), value),
+							})
+		}
 		return result
 	}
 }
