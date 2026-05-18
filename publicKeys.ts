@@ -1,4 +1,13 @@
 export namespace PublicKeys {
+	// test and prod are the public half of 2048 bit RSA key pairs. 
+	// create a new key pair by
+	// openssl genrsa -out private.key && openssl rsa -in private.key -pubout -out public.key
+	// strip headers and line breaks and place into test.
+
+	// testName and prodName are "RSA" concatenated with substring(44) of the public key,
+	// non-letters removed, then substring(0, 4)
+	// echo "RSA"$(cat public.key | head -2 | tail -1 | cut -c44- | sed 's/[^[:alpha:]]//g' | cut -c-4)
+	
 	export const test =
 		"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9LwPP/B8VdWLI0bOHkkAczNIJ0bUqXI+2bXH34DRT7w7efgfEtsLCQsF2AjmEXyYyRSC1nZOB0eggM/9tzhuPfa17j9e6Ob2ugxuIY0MHCPsTBm2l0T7GEJIPYBIwaVwkTEwv6hao7EBH5OV51UOHSpnuc9YsBYl68s5cMoN5REVj3ybzFZ71jWu3GLeY+w2YIH9/km2sKDDpTdzWrmtsVZMo7j+ffm01xhCWHqrSSatESUgR545Bn6AuIuU+X+PHPNHJDwIecgtjg538VF9PvYaAbGC/2wZR8kKn/WBiI8l967EuA+nioUYl2tGWgRBeNA0bb5zR64iq/q1CSwJEwIDAQAB"
 	export const testName = "RSAALwP"
