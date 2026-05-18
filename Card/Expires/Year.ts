@@ -1,6 +1,6 @@
 import { isly } from "isly"
 
-export type Year = typeof Year.values[number]
+export type Year = (typeof Year.values)[number]
 
 export namespace Year {
 	export const values = [

@@ -19,9 +19,9 @@ describe("@pax2pay/pax2pay.cde.Card.Token.detokenize", () => {
 				key
 			)
 			expect(token).toMatch(/4567897890\/16\/0221\/RSAAyOC\/[A-Za-z0-9\-_]+\/0/)
-			if (!token)
+			if (!token) {
 				fail()
-			else {
+			} else {
 				expect(pax2pay.cde.Card.Token.is(token)).toEqual(true)
 				expect(pax2pay.cde.Card.Token.unpack(token).salt).toEqual("0")
 				const card = await pax2pay.cde.Card.Token.detokenize(token, key)
